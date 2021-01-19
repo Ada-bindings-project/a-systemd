@@ -1,120 +1,134 @@
 pragma Ada_2012;
-with Systemd.Low_Level.Systemd_Sd_Daemon_H;
 with Interfaces.C.Strings;
-package body Systemd.daemon is
+with Systemd.Low_Level.Systemd_Sd_Daemon_H;
+package body Systemd.Daemon is
    use Systemd.Low_Level.Systemd_Sd_Daemon_H;
+   use Interfaces.C;
+
    ----------------
-   -- listen_fds --
+   -- Listen_Fds --
    ----------------
 
-   function listen_fds (unset_environment : Boolean := False) return int is
+   function Listen_Fds (Unset_Environment : Boolean := False) return Int is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "listen_fds unimplemented");
-      return raise Program_Error with "Unimplemented function listen_fds";
-   end listen_fds;
+      pragma Compile_Time_Warning (Standard.True, "Listen_Fds unimplemented");
+      return raise Program_Error with "Unimplemented function Listen_Fds";
+   end Listen_Fds;
 
    ---------------------------
-   -- listen_fds_with_names --
+   -- Listen_Fds_With_Names --
    ---------------------------
 
-   function listen_fds_with_names
-     (unset_environment : Boolean := False; names : System.Address) return int
+   function Listen_Fds_With_Names
+     (Unset_Environment : Boolean := False; Names : System.Address) return Int
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "listen_fds_with_names unimplemented");
+      pragma Compile_Time_Warning
+        (Standard.True, "Listen_Fds_With_Names unimplemented");
       return
         raise Program_Error
-          with "Unimplemented function listen_fds_with_names";
-   end listen_fds_with_names;
+          with "Unimplemented function Listen_Fds_With_Names";
+   end Listen_Fds_With_Names;
 
    -------------
-   -- is_fifo --
+   -- Is_Fifo --
    -------------
 
-   function is_fifo (fd : int; path : String) return Boolean is
+   function Is_Fifo
+     (Fd : GNAT.OS_Lib.File_Descriptor; Path : String) return Boolean
+   is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_fifo unimplemented");
-      return raise Program_Error with "Unimplemented function is_fifo";
-   end is_fifo;
+      pragma Compile_Time_Warning (Standard.True, "Is_Fifo unimplemented");
+      return raise Program_Error with "Unimplemented function Is_Fifo";
+   end Is_Fifo;
 
    ----------------
-   -- is_special --
+   -- Is_Special --
    ----------------
 
-   function is_special (fd : int; path : String) return Boolean is
+   function Is_Special
+     (Fd : GNAT.OS_Lib.File_Descriptor; Path : String) return Boolean
+   is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_special unimplemented");
-      return raise Program_Error with "Unimplemented function is_special";
-   end is_special;
+      pragma Compile_Time_Warning (Standard.True, "Is_Special unimplemented");
+      return raise Program_Error with "Unimplemented function Is_Special";
+   end Is_Special;
 
    ---------------
-   -- is_socket --
+   -- Is_Socket --
    ---------------
 
-   function is_socket
-     (fd : int; family : int; c_type : int; listening : int) return int
+   function Is_Socket
+     (Fd        : GNAT.OS_Lib.File_Descriptor; Family : Int; C_Type : Int;
+      Listening : Int) return Boolean
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_socket unimplemented");
-      return raise Program_Error with "Unimplemented function is_socket";
-   end is_socket;
+      pragma Compile_Time_Warning (Standard.True, "Is_Socket unimplemented");
+      return raise Program_Error with "Unimplemented function Is_Socket";
+   end Is_Socket;
 
    --------------------
-   -- is_socket_inet --
+   -- Is_Socket_Inet --
    --------------------
 
-   function is_socket_inet
-     (fd   : int; family : int; c_type : int; listening : int;
-      port : unsigned_short) return int
+   function Is_Socket_Inet
+     (Fd        : GNAT.OS_Lib.File_Descriptor; Family : Int; C_Type : Int;
+      Listening : Int; Port : Unsigned_Short) return Boolean
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_socket_inet unimplemented");
-      return raise Program_Error with "Unimplemented function is_socket_inet";
-   end is_socket_inet;
+      pragma Compile_Time_Warning
+        (Standard.True, "Is_Socket_Inet unimplemented");
+      return raise Program_Error with "Unimplemented function Is_Socket_Inet";
+   end Is_Socket_Inet;
 
    ------------------------
-   -- is_socket_sockaddr --
+   -- Is_Socket_Sockaddr --
    ------------------------
 
-   function is_socket_sockaddr
-     (fd : int; c_type : int; addr : access constant int; addr_len : unsigned;
-      listening : int) return int
+   function Is_Socket_Sockaddr
+     (Fd   : GNAT.OS_Lib.File_Descriptor; C_Type : Int;
+      Addr : access constant Int; Addr_Len : Unsigned; Listening : Int)
+      return Boolean
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_socket_sockaddr unimplemented");
+      pragma Compile_Time_Warning
+        (Standard.True, "Is_Socket_Sockaddr unimplemented");
       return
-        raise Program_Error with "Unimplemented function is_socket_sockaddr";
-   end is_socket_sockaddr;
+        raise Program_Error with "Unimplemented function Is_Socket_Sockaddr";
+   end Is_Socket_Sockaddr;
 
    --------------------
-   -- is_socket_unix --
+   -- Is_Socket_Unix --
    --------------------
 
-   function is_socket_unix
-     (fd     : int; c_type : int; listening : int; path : String;
-      length : unsigned_long) return Boolean
+   function Is_Socket_Unix
+     (Fd   : GNAT.OS_Lib.File_Descriptor; C_Type : Int; Listening : Int;
+      Path : String; Length : Unsigned_Long) return Boolean
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "is_socket_unix unimplemented");
-      return raise Program_Error with "Unimplemented function is_socket_unix";
-   end is_socket_unix;
+      pragma Compile_Time_Warning
+        (Standard.True, "Is_Socket_Unix unimplemented");
+      return raise Program_Error with "Unimplemented function Is_Socket_Unix";
+   end Is_Socket_Unix;
 
    -----------
    -- Is_Mq --
    -----------
 
-   function Is_Mq (Fd : Int; Path : String) return Boolean is
+   function Is_Mq
+     (Fd : GNAT.OS_Lib.File_Descriptor; Path : String) return Boolean
+   is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "Is_Mq unimplemented");
+      pragma Compile_Time_Warning (Standard.True, "Is_Mq unimplemented");
       return raise Program_Error with "Unimplemented function Is_Mq";
    end Is_Mq;
 
    ------------
-   -- notify --
+   -- Notify --
    ------------
 
-   function notify
-     (unset_environment : Boolean := False; state : String) return int
+   function Notify
+     (Unset_Environment : Boolean := False; State : String) return Int
    is
       Ret : Int;
       S   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (State);
@@ -125,53 +139,55 @@ package body Systemd.daemon is
    end notify;
 
    ----------------
-   -- pid_notify --
+   -- Pid_Notify --
    ----------------
 
-   function pid_notify
-     (pid : int; unset_environment : Boolean := False; state : String)
-      return int
+   function Pid_Notify
+     (Pid   : GNAT.OS_Lib.Process_Id; Unset_Environment : Boolean := False;
+      State : String) return Int
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "pid_notify unimplemented");
-      return raise Program_Error with "Unimplemented function pid_notify";
-   end pid_notify;
+      pragma Compile_Time_Warning (Standard.True, "Pid_Notify unimplemented");
+      return raise Program_Error with "Unimplemented function Pid_Notify";
+   end Pid_Notify;
 
    -------------------------
-   -- pid_notify_with_fds --
+   -- Pid_Notify_With_Fds --
    -------------------------
 
-   function pid_notify_with_fds
-     (pid : int; unset_environment : Boolean := False; state : String;
-      fds : access int; n_fds : unsigned) return int
+   function Pid_Notify_With_Fds
+     (Pid   : GNAT.OS_Lib.Process_Id; Unset_Environment : Boolean := False;
+      State : String; Fds : access Int; N_Fds : Unsigned) return Int
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "pid_notify_with_fds unimplemented");
+      pragma Compile_Time_Warning
+        (Standard.True, "Pid_Notify_With_Fds unimplemented");
       return
-        raise Program_Error with "Unimplemented function pid_notify_with_fds";
-   end pid_notify_with_fds;
+        raise Program_Error with "Unimplemented function Pid_Notify_With_Fds";
+   end Pid_Notify_With_Fds;
 
    ------------
-   -- booted --
+   -- Booted --
    ------------
 
-   function booted return Boolean is
+   function Booted return Boolean is
    begin
-      return sd_booted /= 0;
+      return Systemd.Low_Level.systemd_sd_daemon_h.sd_booted  /= 0;
    end booted;
 
    ----------------------
-   -- watchdog_enabled --
+   -- Watchdog_Enabled --
    ----------------------
 
-   function watchdog_enabled
-     (unset_environment : Boolean := False; usec : access unsigned_long)
+   function Watchdog_Enabled
+     (Unset_Environment : Boolean := False; Watch_Time : out Duration)
       return Boolean
    is
    begin
-      --  pragma Compile_Time_Warning (Standard.True, "watchdog_enabled unimplemented");
+      pragma Compile_Time_Warning
+        (Standard.True, "Watchdog_Enabled unimplemented");
       return
-        raise Program_Error with "Unimplemented function watchdog_enabled";
-   end watchdog_enabled;
+        raise Program_Error with "Unimplemented function Watchdog_Enabled";
+   end Watchdog_Enabled;
 
-end Systemd.daemon;
+end Systemd.Daemon;

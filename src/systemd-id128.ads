@@ -3,9 +3,9 @@ package Systemd.Id128 is
 
    type Id128_T is private;
 
-   function To_String (Id : Id128_T) return String;
+   function Image (Id : Id128_T) return String;
 
-   function From_String (S : String) return Id128_T;
+   function Value (S : String) return Id128_T;
 
    function Randomize return Id128_T;
 

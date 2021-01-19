@@ -10,24 +10,24 @@ package body Systemd.Id128 is
    -- To_String --
    ---------------
    function To_Chars_Ptr is new ADA.Unchecked_Conversion (SysteM.Address, Interfaces.C.Strings.Chars_Ptr);
-   function To_String (Id : Id128_T) return String is
+   function Image (Id : Id128_T) return String is
       Buffer : aliased String (1 .. SD_ID128_STRING_MAX);
       use Interfaces.C.Strings;
    begin
       return Buffer (Buffer'First .. Natural (Strlen (Sd_Id128_To_String (Id => Sd_Id128_T (Id),
                                                                           S  => To_Chars_Ptr (Buffer'Address)))));
-   end To_String;
+   end Image;
 
    -----------------
    -- From_String --
    -----------------
 
-   function From_String (S : String) return Id128_T is
+   function Value (S : String) return Id128_T is
    begin
       return Ret : Id128_T do
          Retcode_2_Exception (Sd_Id128_From_String (To_Chars_Ptr (S'Address), Sd_Id128_T (Ret)'Unrestricted_Access));
       end return;
-   end From_String;
+   end Value;
 
    ---------------
    -- Randomize --
