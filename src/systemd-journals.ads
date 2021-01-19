@@ -58,7 +58,7 @@ package Systemd.journals is
       func : String;
       message : String) return int;
 
-  -- implicitly add code location to messages sent, if this is enabled
+  --  implicitly add code location to messages sent, if this is enabled
    function stream_fd
      (identifier : String;
       priority : int;
