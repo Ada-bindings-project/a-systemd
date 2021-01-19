@@ -19,14 +19,11 @@ package Systemd.Id128 is
 
    function Get_Boot_App_Specific (App_Id : Id128_T) return Id128_T;
 
-   --  Note that FORMAT_VAL will evaluate the passed argument 16
-   --  * times. It is hence not a good idea to call this macro with an
-   --  * expensive function as parameter or an expression with side
-   --  * effects
 
    function "=" (A : Id128_T; B : Id128_T) return Boolean;
+
    Null_Id128 : constant Id128_T;
-   All_Id128 : constant Id128_T;
+   All_Id128  : constant Id128_T;
 
    function Is_Null (A : Id128_T) return Boolean is
      (A = Null_Id128);

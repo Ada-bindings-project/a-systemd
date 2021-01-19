@@ -4,214 +4,210 @@ with System;
 
 with Systemd.Id128;
 private with Systemd.Low_Level.Systemd_Sd_Journal_H;
-package Systemd.journals is
+package Systemd.Journals is
 
-   function print (priority : int; format : String  -- , ...
-      ) return int;
+   function Print (Priority : Int; Format : String  -- , ...
+                  ) return Int;
 
-   function printv
-     (priority : int;
-      format : String;
-      ap : access System.Address) return int;
+   function Printv
+     (Priority : Int;
+      Format   : String;
+      Ap       : access System.Address) return Int;
 
-   function send (format : String  -- , ...
-      ) return int;
+   function Send (Format : String  -- , ...
+                 ) return Int;
 
-   function sendv (iov : access constant System.Address; n : int) return int;
+   function Sendv (Iov : access constant System.Address; N : Int) return Int;
 
-   function perror (message : String) return int;
+   function Perror (Message : String) return Int;
 
-  --  Used by the macros below. You probably don't want to call this directly.
-   function print_with_location
-     (priority : int;
-      file : String;
-      line : String;
-      func : String;
-      format : String  -- , ...
-      ) return int;
+   --  Used by the macros below. You probably don't want to call this directly.
+   function Print_With_Location
+     (Priority : Int;
+      File     : String;
+      Line     : String;
+      Func     : String;
+      Format   : String  -- , ...
+     ) return Int;
 
-   function printv_with_location
-     (priority : int;
-      file : String;
-      line : String;
-      func : String;
-      format : String;
-      ap : access System.Address) return int;
+   function Printv_With_Location
+     (Priority : Int;
+      File     : String;
+      Line     : String;
+      Func     : String;
+      Format   : String;
+      Ap       : access System.Address) return Int;
 
-   function send_with_location
-     (file : String;
-      line : String;
-      func : String;
-      format : String  -- , ...
-      ) return int;
+   function Send_With_Location
+     (File   : String;
+      Line   : String;
+      Func   : String;
+      Format : String  -- , ...
+     ) return Int;
 
-   function sendv_with_location
-     (file : String;
-      line : String;
-      func : String;
-      iov : access constant System.Address;
-      n : int) return int;
+   function Sendv_With_Location
+     (File : String;
+      Line : String;
+      Func : String;
+      Iov  : access constant System.Address;
+      N    : Int) return Int;
 
-   function perror_with_location
-     (file : String;
-      line : String;
-      func : String;
-      message : String) return int;
+   function Perror_With_Location
+     (File    : String;
+      Line    : String;
+      Func    : String;
+      Message : String) return Int;
 
-  --  implicitly add code location to messages sent, if this is enabled
-   function stream_fd
-     (identifier : String;
-      priority : int;
-      level_prefix : int) return int;
+   --  implicitly add code location to messages sent, if this is enabled
+   function Stream_Fd
+     (Identifier   : String;
+      Priority     : Int;
+      Level_Prefix : Int) return Int;
 
-  --  Browse journal stream
-   type sd_journal is tagged private;   -- incomplete struct
+   --  Browse journal stream
+   type Sd_Journal is tagged private;   -- incomplete struct
 
-  --  Open flags
-  --  deprecated name
-  --  Wakeup event types
-   function open (ret : System.Address; flags : int) return int;
+   --  Open flags
+   --  deprecated name
+   --  Wakeup event types
+   procedure  Open (Self : in out Sd_Journal; Flags : Int);
 
-   function open_directory
-     (ret : System.Address;
-      path : String;
-      flags : int) return int;
+   procedure Open_Directory
+     (Self   : in out Sd_Journal;
+      Path  : String;
+      Flags : Int);
 
-   function open_directory_fd
-     (ret : System.Address;
-      fd : int;
-      flags : int) return int;
+   procedure Open_Directory_Fd
+     (Self   : in out Sd_Journal;
+      Fd    : Int;
+      Flags : Int);
 
-   function open_files
-     (ret : System.Address;
-      paths : System.Address;
-      flags : int) return int;
+   procedure Open_Files
+     (Self   : in out Sd_Journal;
+      Paths : System.Address;
+      Flags : Int);
 
-   function open_files_fd
-     (ret : System.Address;
-      fds : access int;
-      n_fds : unsigned;
-      flags : int) return int;
+   procedure Open_Files_Fd
+     (Self   : in out Sd_Journal;
+      Fds   : access Int;
+      N_Fds : Unsigned;
+      Flags : Int);
 
-  --  deprecated
-   function open_container
-     (ret : System.Address;
-      machine : String;
-      flags : int) return int;
 
-   procedure close (j : access sd_journal);
 
-   function previous (j : access sd_journal) return int;
+   procedure Close (Self : in out Sd_Journal);
 
-   function next (j : access sd_journal) return int;
+   function Previous (Self : in out Sd_Journal) return Int;
 
-   function previous_skip (j : access sd_journal; skip : unsigned_long) return int;
+   function Next (Self : in out Sd_Journal) return Int;
 
-   function next_skip (j : access sd_journal; skip : unsigned_long) return int;
+   function Previous_Skip (Self : in out Sd_Journal; Skip : Unsigned_Long) return Int;
 
-   function get_realtime_usec (j : access sd_journal; ret : access unsigned_long) return int;
+   function Next_Skip (Self : in out Sd_Journal; Skip : Unsigned_Long) return Int;
 
-   function get_monotonic_usec
-     (j : access sd_journal;
-      Ret : access Unsigned_Long;
+   function Get_Realtime_Usec (Self : in out Sd_Journal; Ret : access Unsigned_Long) return Int;
+
+   function Get_Monotonic_Usec
+     (Self        : in out Sd_Journal;
+      Ret         : access Unsigned_Long;
       Ret_Boot_Id : out Systemd.Id128.Id128_T) return Int;
 
-   function set_data_threshold (j : access sd_journal; sz : unsigned_long) return int;
+   procedure Set_Data_Threshold (Self : in out Sd_Journal; Sz : Unsigned_Long);
 
-   function Get_Data_Threshold (J : access Sd_Journal; Sz : access Unsigned_Long) return Int;
+   function Get_Data_Threshold (Self : in out Sd_Journal) return Unsigned_Long;
 
-   function get_data
-     (j : access sd_journal;
-      field : String;
-      data : System.Address;
-      l : access unsigned_long) return int;
+   function Get_Data
+     (J     : in out Sd_Journal;
+      Field : String;
+      Data  : System.Address;
+      L     : access Unsigned_Long) return Int;
 
-   function enumerate_data
-     (j : access sd_journal;
-      data : System.Address;
-      l : access unsigned_long) return int;
+   function Enumerate_Data
+     (J    : in out Sd_Journal;
+      Data : System.Address;
+      L    : access Unsigned_Long) return Int;
 
-   procedure restart_data (j : access sd_journal);
+   procedure Restart_Data (J : access Sd_Journal);
 
-   function add_match
-     (j : access sd_journal;
-      data : System.Address;
-      size : unsigned_long) return int;
+   function Add_Match
+     (J    : in out Sd_Journal;
+      Data : System.Address;
+      Size : Unsigned_Long) return Int;
 
-   function add_disjunction (j : access sd_journal) return int;
+   function Add_Disjunction (J : in out Sd_Journal) return Int;
 
-   function add_conjunction (j : access sd_journal) return int;
+   function Add_Conjunction (J : in out Sd_Journal) return Int;
 
-   procedure flush_matches (j : access sd_journal);
+   procedure Flush_Matches (J : in out Sd_Journal);
 
-   function seek_head (j : access sd_journal) return int;
+   procedure Seek_Head (J : in out Sd_Journal);
 
-   function seek_tail (j : access sd_journal) return int;
+   procedure Seek_Tail (J : in out Sd_Journal);
 
-   function seek_monotonic_usec
-     (j : access sd_journal;
-      boot_id : Systemd.Id128.id128_t;
-      usec : unsigned_long) return int;
+   procedure Seek_Monotonic_Usec
+     (J       : in out Sd_Journal;
+      Boot_Id : Systemd.Id128.Id128_T;
+      Usec    : Unsigned_Long);
 
-   function seek_realtime_usec (j : access sd_journal; usec : unsigned_long) return int;
+   procedure Seek_Realtime_Usec (J : in out Sd_Journal; Usec : Unsigned_Long);
 
-   function seek_cursor (j : access sd_journal; cursor : String) return int;
+   procedure Seek_Cursor (J : in out Sd_Journal; Cursor : String);
 
-   function get_cursor (j : access sd_journal; cursor : System.Address) return int;
+   function Get_Cursor (J : in out Sd_Journal) return String;
 
-   function test_cursor (j : access sd_journal; cursor : String) return int;
+   function Test_Cursor (J : in out Sd_Journal; Cursor : String) return Boolean;
 
-   function get_cutoff_realtime_usec
-     (j : access sd_journal;
-      from : access unsigned_long;
-      to : access unsigned_long) return int;
+   function Get_Cutoff_Realtime_Usec
+     (J    : in out Sd_Journal;
+      From : access Unsigned_Long;
+      To   : access Unsigned_Long) return Int;
 
-   function get_cutoff_monotonic_usec
-     (j : access sd_journal;
-      boot_id : Systemd.Id128.id128_t;
-      from : access unsigned_long;
-      to : access unsigned_long) return int;
+   function Get_Cutoff_Monotonic_Usec
+     (J       : in out Sd_Journal;
+      Boot_Id : Systemd.Id128.Id128_T;
+      From    : access Unsigned_Long;
+      To      : access Unsigned_Long) return Int;
 
-   function get_usage (j : access sd_journal; bytes : access unsigned_long) return int;
+   function Get_Usage (J : in out Sd_Journal; Bytes : access Unsigned_Long) return Int;
 
-   function query_unique (j : access sd_journal; field : String) return int;
+   function Query_Unique (J : in out Sd_Journal; Field : String) return Int;
 
-   function enumerate_unique
-     (j : access sd_journal;
-      data : System.Address;
-      l : access unsigned_long) return int;
+   function Enumerate_Unique
+     (J    : in out Sd_Journal;
+      Data : System.Address;
+      L    : access Unsigned_Long) return Int;
 
-   procedure restart_unique (j : access sd_journal);
+   procedure Restart_Unique (J : in out Sd_Journal);
 
-   function enumerate_fields (j : access sd_journal; field : System.Address) return int;
+   function Enumerate_Fields (J : in out Sd_Journal; Field : System.Address) return Int;
 
-   procedure restart_fields (j : access sd_journal);
+   procedure Restart_Fields (J : in out Sd_Journal);
 
-   function get_fd (j : access sd_journal) return int;
+   function Get_Fd (J : in out Sd_Journal) return Int;
 
-   function get_events (j : access sd_journal) return int;
+   function Get_Events (J : in out Sd_Journal) return Int;
 
-   function get_timeout (j : access sd_journal; timeout_usec : access unsigned_long) return int;
+   function Get_Timeout (J : in out Sd_Journal; Timeout_Usec : access Unsigned_Long) return Int;
 
-   function process (j : access sd_journal) return int;
+   function Process (J : in out Sd_Journal) return Int;
 
-   function wait (j : access sd_journal; timeout_usec : unsigned_long) return int;
+   function Wait (J : in out Sd_Journal; Timeout_Usec : Unsigned_Long) return Int;
 
-   function reliable_fd (j : access sd_journal) return int;
+   function Reliable_Fd (J : in out Sd_Journal) return Int;
 
-   function get_catalog (j : access sd_journal; text : System.Address) return int;
+   function Get_Catalog (J : in out Sd_Journal; Text : System.Address) return Int;
 
-   function get_catalog_for_message_id (id : Systemd.Id128.id128_t; text : System.Address) return int;
+   function Get_Catalog_For_Message_Id (Id : Systemd.Id128.Id128_T; Text : System.Address) return Int;
 
-   function has_runtime_files (j : access sd_journal) return int;
+   function Has_Runtime_Files (J : in out Sd_Journal) return Boolean;
 
-   function has_persistent_files (j : access sd_journal) return int;
+   function Has_Persistent_Files (J : in out Sd_Journal) return Boolean;
 
-   procedure closep (p : System.Address);
+   procedure Closep (P : System.Address);
 private
    type Sd_Journal_Access is access all Systemd.Low_Level.Systemd_Sd_Journal_H.Sd_Journal with Storage_Size => 0;
    type Sd_Journal is tagged record
       Impl : aliased Sd_Journal_Access;
    end record;
 
-end Systemd.journals;
+end Systemd.Journals;

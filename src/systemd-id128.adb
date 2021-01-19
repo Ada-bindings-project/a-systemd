@@ -4,6 +4,8 @@ with ADa.Unchecked_Conversion;
 with System;
 package body Systemd.Id128 is
    use Systemd.Low_Level.Systemd_Sd_Id128_H;
+   use type Interfaces.C.Int;
+   pragma Warnings (Off, "variable ""Ret"" is read but never assigned");
    ---------------
    -- To_String --
    ---------------
@@ -22,8 +24,9 @@ package body Systemd.Id128 is
 
    function From_String (S : String) return Id128_T is
    begin
-      pragma Compile_Time_Warning (Standard.True, "From_String unimplemented");
-      return raise Program_Error with "Unimplemented function From_String";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_From_String (To_Chars_Ptr (S'Address), Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end From_String;
 
    ---------------
@@ -31,10 +34,9 @@ package body Systemd.Id128 is
    ---------------
 
    function Randomize return Id128_T is
-      R : Interfaces.C.Int;
    begin
       return Ret : Id128_T do
-         R := Sd_Id128_Randomize (Sd_Id128_T (Ret)'Unrestricted_Access);
+         Retcode_2_Exception (Sd_Id128_Randomize (Sd_Id128_T (Ret)'Unrestricted_Access));
       end return;
    end Randomize;
 
@@ -44,8 +46,9 @@ package body Systemd.Id128 is
 
    function Get_Machine return Id128_T is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Get_Machine unimplemented");
-      return raise Program_Error with "Unimplemented function Get_Machine";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_Get_Machine (Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end Get_Machine;
 
    --------------
@@ -54,8 +57,9 @@ package body Systemd.Id128 is
 
    function Get_Boot return Id128_T is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Get_Boot unimplemented");
-      return raise Program_Error with "Unimplemented function Get_Boot";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_Get_Boot (Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end Get_Boot;
 
    --------------------
@@ -64,9 +68,9 @@ package body Systemd.Id128 is
 
    function Get_Invocation return Id128_T is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Get_Invocation unimplemented");
-      return raise Program_Error with "Unimplemented function Get_Invocation";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_Get_Invocation (Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end Get_Invocation;
 
    ------------------------------
@@ -75,11 +79,9 @@ package body Systemd.Id128 is
 
    function Get_Machine_App_Specific (App_Id : Id128_T) return Id128_T is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Get_Machine_App_Specific unimplemented");
-      return
-        raise Program_Error
-          with "Unimplemented function Get_Machine_App_Specific";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_Get_Machine_App_Specific (Sd_Id128_T (App_Id), Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end Get_Machine_App_Specific;
 
    ---------------------------
@@ -88,11 +90,9 @@ package body Systemd.Id128 is
 
    function Get_Boot_App_Specific (App_Id : Id128_T) return Id128_T is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Get_Boot_App_Specific unimplemented");
-      return
-        raise Program_Error
-          with "Unimplemented function Get_Boot_App_Specific";
+      return Ret : Id128_T do
+         Retcode_2_Exception (Sd_Id128_Get_Boot_App_Specific (Sd_Id128_T (App_Id), Sd_Id128_T (Ret)'Unrestricted_Access));
+      end return;
    end Get_Boot_App_Specific;
 
    ---------
@@ -100,9 +100,9 @@ package body Systemd.Id128 is
    ---------
 
    function "=" (A : Id128_T; B : Id128_T) return Boolean is
+      use Interfaces.C;
    begin
-      pragma Compile_Time_Warning (Standard.True, """="" unimplemented");
-      return raise Program_Error with "Unimplemented function ""=""";
+      return A.Bytes = B.Bytes;
    end "=";
 
 end Systemd.Id128;

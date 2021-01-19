@@ -1,322 +1,306 @@
 pragma Ada_2012;
-package body Systemd.journals is
+package body Systemd.Journals is
 
    -----------
-   -- print --
+   -- Print --
    -----------
 
-   function print (priority : int; format : String) return int is
+   function Print (Priority : Int; Format : String) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "print unimplemented");
-      return raise Program_Error with "Unimplemented function print";
-   end print;
+      pragma Compile_Time_Warning (Standard.True, "Print unimplemented");
+      return raise Program_Error with "Unimplemented function Print";
+   end Print;
 
    ------------
-   -- printv --
+   -- Printv --
    ------------
 
-   function printv
-     (priority : int; format : String; ap : access System.Address) return int
+   function Printv
+     (Priority : Int; Format : String; Ap : access System.Address) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "printv unimplemented");
-      return raise Program_Error with "Unimplemented function printv";
-   end printv;
+      pragma Compile_Time_Warning (Standard.True, "Printv unimplemented");
+      return raise Program_Error with "Unimplemented function Printv";
+   end Printv;
 
    ----------
-   -- send --
+   -- Send --
    ----------
 
-   function send (format : String) return int is
+   function Send (Format : String) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "send unimplemented");
-      return raise Program_Error with "Unimplemented function send";
-   end send;
+      pragma Compile_Time_Warning (Standard.True, "Send unimplemented");
+      return raise Program_Error with "Unimplemented function Send";
+   end Send;
 
    -----------
-   -- sendv --
+   -- Sendv --
    -----------
 
-   function sendv (iov : access constant System.Address; n : int) return int is
+   function Sendv (Iov : access constant System.Address; N : Int) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "sendv unimplemented");
-      return raise Program_Error with "Unimplemented function sendv";
-   end sendv;
+      pragma Compile_Time_Warning (Standard.True, "Sendv unimplemented");
+      return raise Program_Error with "Unimplemented function Sendv";
+   end Sendv;
 
    ------------
-   -- perror --
+   -- Perror --
    ------------
 
-   function perror (message : String) return int is
+   function Perror (Message : String) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "perror unimplemented");
-      return raise Program_Error with "Unimplemented function perror";
-   end perror;
+      pragma Compile_Time_Warning (Standard.True, "Perror unimplemented");
+      return raise Program_Error with "Unimplemented function Perror";
+   end Perror;
 
    -------------------------
-   -- print_with_location --
+   -- Print_With_Location --
    -------------------------
 
-   function print_with_location
-     (priority : int; file : String; line : String; func : String;
-      format   : String) return int
+   function Print_With_Location
+     (Priority : Int; File : String; Line : String; Func : String;
+      Format   : String) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "print_with_location unimplemented");
+        (Standard.True, "Print_With_Location unimplemented");
       return
-        raise Program_Error with "Unimplemented function print_with_location";
-   end print_with_location;
+        raise Program_Error with "Unimplemented function Print_With_Location";
+   end Print_With_Location;
 
    --------------------------
-   -- printv_with_location --
+   -- Printv_With_Location --
    --------------------------
 
-   function printv_with_location
-     (priority : int; file : String; line : String; func : String;
-      format   : String; ap : access System.Address) return int
+   function Printv_With_Location
+     (Priority : Int; File : String; Line : String; Func : String;
+      Format   : String; Ap : access System.Address) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "printv_with_location unimplemented");
+        (Standard.True, "Printv_With_Location unimplemented");
       return
-        raise Program_Error with "Unimplemented function printv_with_location";
-   end printv_with_location;
+        raise Program_Error with "Unimplemented function Printv_With_Location";
+   end Printv_With_Location;
 
    ------------------------
-   -- send_with_location --
+   -- Send_With_Location --
    ------------------------
 
-   function send_with_location
-     (file : String; line : String; func : String; format : String) return int
+   function Send_With_Location
+     (File : String; Line : String; Func : String; Format : String) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "send_with_location unimplemented");
+        (Standard.True, "Send_With_Location unimplemented");
       return
-        raise Program_Error with "Unimplemented function send_with_location";
-   end send_with_location;
+        raise Program_Error with "Unimplemented function Send_With_Location";
+   end Send_With_Location;
 
    -------------------------
-   -- sendv_with_location --
+   -- Sendv_With_Location --
    -------------------------
 
-   function sendv_with_location
-     (file : String; line : String; func : String;
-      iov  : access constant System.Address; n : int) return int
+   function Sendv_With_Location
+     (File : String; Line : String; Func : String;
+      Iov  : access constant System.Address; N : Int) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "sendv_with_location unimplemented");
+        (Standard.True, "Sendv_With_Location unimplemented");
       return
-        raise Program_Error with "Unimplemented function sendv_with_location";
-   end sendv_with_location;
+        raise Program_Error with "Unimplemented function Sendv_With_Location";
+   end Sendv_With_Location;
 
    --------------------------
-   -- perror_with_location --
+   -- Perror_With_Location --
    --------------------------
 
-   function perror_with_location
-     (file : String; line : String; func : String; message : String) return int
+   function Perror_With_Location
+     (File : String; Line : String; Func : String; Message : String) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "perror_with_location unimplemented");
+        (Standard.True, "Perror_With_Location unimplemented");
       return
-        raise Program_Error with "Unimplemented function perror_with_location";
-   end perror_with_location;
+        raise Program_Error with "Unimplemented function Perror_With_Location";
+   end Perror_With_Location;
 
    ---------------
-   -- stream_fd --
+   -- Stream_Fd --
    ---------------
 
-   function stream_fd
-     (identifier : String; priority : int; level_prefix : int) return int
+   function Stream_Fd
+     (Identifier : String; Priority : Int; Level_Prefix : Int) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "stream_fd unimplemented");
-      return raise Program_Error with "Unimplemented function stream_fd";
-   end stream_fd;
+      pragma Compile_Time_Warning (Standard.True, "Stream_Fd unimplemented");
+      return raise Program_Error with "Unimplemented function Stream_Fd";
+   end Stream_Fd;
 
    ----------
-   -- open --
+   -- Open --
    ----------
 
-   function open (ret : System.Address; flags : int) return int is
+   procedure Open (Self : in out Sd_Journal; Flags : Int) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "open unimplemented");
-      return raise Program_Error with "Unimplemented function open";
-   end open;
+      pragma Compile_Time_Warning (Standard.True, "Open unimplemented");
+      raise Program_Error with "Unimplemented procedure Open";
+   end Open;
 
    --------------------
-   -- open_directory --
+   -- Open_Directory --
    --------------------
 
-   function open_directory
-     (ret : System.Address; path : String; flags : int) return int
+   procedure Open_Directory
+     (Self : in out Sd_Journal; Path : String; Flags : Int)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "open_directory unimplemented");
-      return raise Program_Error with "Unimplemented function open_directory";
-   end open_directory;
+        (Standard.True, "Open_Directory unimplemented");
+      raise Program_Error with "Unimplemented procedure Open_Directory";
+   end Open_Directory;
 
    -----------------------
-   -- open_directory_fd --
+   -- Open_Directory_Fd --
    -----------------------
 
-   function open_directory_fd
-     (ret : System.Address; fd : int; flags : int) return int
+   procedure Open_Directory_Fd
+     (Self : in out Sd_Journal; Fd : Int; Flags : Int)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "open_directory_fd unimplemented");
-      return
-        raise Program_Error with "Unimplemented function open_directory_fd";
-   end open_directory_fd;
+        (Standard.True, "Open_Directory_Fd unimplemented");
+      raise Program_Error with "Unimplemented procedure Open_Directory_Fd";
+   end Open_Directory_Fd;
 
    ----------------
-   -- open_files --
+   -- Open_Files --
    ----------------
 
-   function open_files
-     (ret : System.Address; paths : System.Address; flags : int) return int
+   procedure Open_Files
+     (Self : in out Sd_Journal; Paths : System.Address; Flags : Int)
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "open_files unimplemented");
-      return raise Program_Error with "Unimplemented function open_files";
-   end open_files;
+      pragma Compile_Time_Warning (Standard.True, "Open_Files unimplemented");
+      raise Program_Error with "Unimplemented procedure Open_Files";
+   end Open_Files;
 
    -------------------
-   -- open_files_fd --
+   -- Open_Files_Fd --
    -------------------
 
-   function open_files_fd
-     (ret : System.Address; fds : access int; n_fds : unsigned; flags : int)
-      return int
+   procedure Open_Files_Fd
+     (Self  : in out Sd_Journal; Fds : access Int; N_Fds : Unsigned;
+      Flags :        Int)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "open_files_fd unimplemented");
-      return raise Program_Error with "Unimplemented function open_files_fd";
-   end open_files_fd;
-
-   --------------------
-   -- open_container --
-   --------------------
-
-   function open_container
-     (ret : System.Address; machine : String; flags : int) return int
-   is
-   begin
-      pragma Compile_Time_Warning
-        (Standard.True, "open_container unimplemented");
-      return raise Program_Error with "Unimplemented function open_container";
-   end open_container;
+        (Standard.True, "Open_Files_Fd unimplemented");
+      raise Program_Error with "Unimplemented procedure Open_Files_Fd";
+   end Open_Files_Fd;
 
    -----------
-   -- close --
+   -- Close --
    -----------
 
-   procedure close (j : access sd_journal) is
+   procedure Close (Self : in out Sd_Journal) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "close unimplemented");
-      raise Program_Error with "Unimplemented procedure close";
-   end close;
+      pragma Compile_Time_Warning (Standard.True, "Close unimplemented");
+      raise Program_Error with "Unimplemented procedure Close";
+   end Close;
 
    --------------
-   -- previous --
+   -- Previous --
    --------------
 
-   function previous (j : access sd_journal) return int is
+   function Previous (Self : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "previous unimplemented");
-      return raise Program_Error with "Unimplemented function previous";
-   end previous;
+      pragma Compile_Time_Warning (Standard.True, "Previous unimplemented");
+      return raise Program_Error with "Unimplemented function Previous";
+   end Previous;
 
    ----------
-   -- next --
+   -- Next --
    ----------
 
-   function next (j : access sd_journal) return int is
+   function Next (Self : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "next unimplemented");
-      return raise Program_Error with "Unimplemented function next";
-   end next;
+      pragma Compile_Time_Warning (Standard.True, "Next unimplemented");
+      return raise Program_Error with "Unimplemented function Next";
+   end Next;
 
    -------------------
-   -- previous_skip --
+   -- Previous_Skip --
    -------------------
 
-   function previous_skip
-     (j : access sd_journal; skip : unsigned_long) return int
+   function Previous_Skip
+     (Self : in out Sd_Journal; Skip : Unsigned_Long) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "previous_skip unimplemented");
-      return raise Program_Error with "Unimplemented function previous_skip";
-   end previous_skip;
+        (Standard.True, "Previous_Skip unimplemented");
+      return raise Program_Error with "Unimplemented function Previous_Skip";
+   end Previous_Skip;
 
    ---------------
-   -- next_skip --
+   -- Next_Skip --
    ---------------
 
-   function next_skip (j : access sd_journal; skip : unsigned_long) return int
+   function Next_Skip
+     (Self : in out Sd_Journal; Skip : Unsigned_Long) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "next_skip unimplemented");
-      return raise Program_Error with "Unimplemented function next_skip";
-   end next_skip;
+      pragma Compile_Time_Warning (Standard.True, "Next_Skip unimplemented");
+      return raise Program_Error with "Unimplemented function Next_Skip";
+   end Next_Skip;
 
    -----------------------
-   -- get_realtime_usec --
+   -- Get_Realtime_Usec --
    -----------------------
 
-   function get_realtime_usec
-     (j : access sd_journal; ret : access unsigned_long) return int
+   function Get_Realtime_Usec
+     (Self : in out Sd_Journal; Ret : access Unsigned_Long) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "get_realtime_usec unimplemented");
+        (Standard.True, "Get_Realtime_Usec unimplemented");
       return
-        raise Program_Error with "Unimplemented function get_realtime_usec";
-   end get_realtime_usec;
+        raise Program_Error with "Unimplemented function Get_Realtime_Usec";
+   end Get_Realtime_Usec;
 
    ------------------------
-   -- get_monotonic_usec --
+   -- Get_Monotonic_Usec --
    ------------------------
 
-   function get_monotonic_usec
-     (j           :     access sd_journal; Ret : access Unsigned_Long;
-      Ret_Boot_Id : out Systemd.Id128.Id128_T) return Int
+   function Get_Monotonic_Usec
+     (Self        : in out Sd_Journal; Ret : access Unsigned_Long;
+      Ret_Boot_Id :    out Systemd.Id128.Id128_T) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "get_monotonic_usec unimplemented");
+        (Standard.True, "Get_Monotonic_Usec unimplemented");
       return
-        raise Program_Error with "Unimplemented function get_monotonic_usec";
-   end get_monotonic_usec;
+        raise Program_Error with "Unimplemented function Get_Monotonic_Usec";
+   end Get_Monotonic_Usec;
 
    ------------------------
-   -- set_data_threshold --
+   -- Set_Data_Threshold --
    ------------------------
 
-   function set_data_threshold
-     (j : access sd_journal; sz : unsigned_long) return int
+   procedure Set_Data_Threshold (Self : in out Sd_Journal; Sz : Unsigned_Long)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "set_data_threshold unimplemented");
-      return
-        raise Program_Error with "Unimplemented function set_data_threshold";
-   end set_data_threshold;
+        (Standard.True, "Set_Data_Threshold unimplemented");
+      raise Program_Error with "Unimplemented procedure Set_Data_Threshold";
+   end Set_Data_Threshold;
 
    ------------------------
    -- Get_Data_Threshold --
    ------------------------
 
-   function Get_Data_Threshold
-     (J : access Sd_Journal; Sz : access Unsigned_Long) return Int
+   function Get_Data_Threshold (Self : in out Sd_Journal) return Unsigned_Long
    is
    begin
       pragma Compile_Time_Warning
@@ -326,399 +310,395 @@ package body Systemd.journals is
    end Get_Data_Threshold;
 
    --------------
-   -- get_data --
+   -- Get_Data --
    --------------
 
-   function get_data
-     (j : access sd_journal; field : String; data : System.Address;
-      l : access unsigned_long) return int
+   function Get_Data
+     (J : in out Sd_Journal; Field : String; Data : System.Address;
+      L :        access Unsigned_Long) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_data unimplemented");
-      return raise Program_Error with "Unimplemented function get_data";
-   end get_data;
+      pragma Compile_Time_Warning (Standard.True, "Get_Data unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Data";
+   end Get_Data;
 
    --------------------
-   -- enumerate_data --
+   -- Enumerate_Data --
    --------------------
 
-   function enumerate_data
-     (j : access sd_journal; data : System.Address; l : access unsigned_long)
-      return int
+   function Enumerate_Data
+     (J : in out Sd_Journal; Data : System.Address; L : access Unsigned_Long)
+      return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "enumerate_data unimplemented");
-      return raise Program_Error with "Unimplemented function enumerate_data";
-   end enumerate_data;
+        (Standard.True, "Enumerate_Data unimplemented");
+      return raise Program_Error with "Unimplemented function Enumerate_Data";
+   end Enumerate_Data;
 
    ------------------
-   -- restart_data --
+   -- Restart_Data --
    ------------------
 
-   procedure restart_data (j : access sd_journal) is
+   procedure Restart_Data (J : access Sd_Journal) is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "restart_data unimplemented");
-      raise Program_Error with "Unimplemented procedure restart_data";
-   end restart_data;
+        (Standard.True, "Restart_Data unimplemented");
+      raise Program_Error with "Unimplemented procedure Restart_Data";
+   end Restart_Data;
 
    ---------------
-   -- add_match --
+   -- Add_Match --
    ---------------
 
-   function add_match
-     (j : access sd_journal; data : System.Address; size : unsigned_long)
-      return int
+   function Add_Match
+     (J : in out Sd_Journal; Data : System.Address; Size : Unsigned_Long)
+      return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "add_match unimplemented");
-      return raise Program_Error with "Unimplemented function add_match";
-   end add_match;
+      pragma Compile_Time_Warning (Standard.True, "Add_Match unimplemented");
+      return raise Program_Error with "Unimplemented function Add_Match";
+   end Add_Match;
 
    ---------------------
-   -- add_disjunction --
+   -- Add_Disjunction --
    ---------------------
 
-   function add_disjunction (j : access sd_journal) return int is
+   function Add_Disjunction (J : in out Sd_Journal) return Int is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "add_disjunction unimplemented");
-      return raise Program_Error with "Unimplemented function add_disjunction";
-   end add_disjunction;
+        (Standard.True, "Add_Disjunction unimplemented");
+      return raise Program_Error with "Unimplemented function Add_Disjunction";
+   end Add_Disjunction;
 
    ---------------------
-   -- add_conjunction --
+   -- Add_Conjunction --
    ---------------------
 
-   function add_conjunction (j : access sd_journal) return int is
+   function Add_Conjunction (J : in out Sd_Journal) return Int is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "add_conjunction unimplemented");
-      return raise Program_Error with "Unimplemented function add_conjunction";
-   end add_conjunction;
+        (Standard.True, "Add_Conjunction unimplemented");
+      return raise Program_Error with "Unimplemented function Add_Conjunction";
+   end Add_Conjunction;
 
    -------------------
-   -- flush_matches --
+   -- Flush_Matches --
    -------------------
 
-   procedure flush_matches (j : access sd_journal) is
+   procedure Flush_Matches (J : in out Sd_Journal) is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "flush_matches unimplemented");
-      raise Program_Error with "Unimplemented procedure flush_matches";
-   end flush_matches;
+        (Standard.True, "Flush_Matches unimplemented");
+      raise Program_Error with "Unimplemented procedure Flush_Matches";
+   end Flush_Matches;
 
    ---------------
-   -- seek_head --
+   -- Seek_Head --
    ---------------
 
-   function seek_head (j : access sd_journal) return int is
+   procedure Seek_Head (J : in out Sd_Journal) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "seek_head unimplemented");
-      return raise Program_Error with "Unimplemented function seek_head";
-   end seek_head;
+      pragma Compile_Time_Warning (Standard.True, "Seek_Head unimplemented");
+      raise Program_Error with "Unimplemented procedure Seek_Head";
+   end Seek_Head;
 
    ---------------
-   -- seek_tail --
+   -- Seek_Tail --
    ---------------
 
-   function seek_tail (j : access sd_journal) return int is
+   procedure Seek_Tail (J : in out Sd_Journal) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "seek_tail unimplemented");
-      return raise Program_Error with "Unimplemented function seek_tail";
-   end seek_tail;
+      pragma Compile_Time_Warning (Standard.True, "Seek_Tail unimplemented");
+      raise Program_Error with "Unimplemented procedure Seek_Tail";
+   end Seek_Tail;
 
    -------------------------
-   -- seek_monotonic_usec --
+   -- Seek_Monotonic_Usec --
    -------------------------
 
-   function seek_monotonic_usec
-     (j    : access sd_journal; boot_id : Systemd.Id128.id128_t;
-      usec : unsigned_long) return int
+   procedure Seek_Monotonic_Usec
+     (J    : in out Sd_Journal; Boot_Id : Systemd.Id128.Id128_T;
+      Usec :        Unsigned_Long)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "seek_monotonic_usec unimplemented");
-      return
-        raise Program_Error with "Unimplemented function seek_monotonic_usec";
-   end seek_monotonic_usec;
+        (Standard.True, "Seek_Monotonic_Usec unimplemented");
+      raise Program_Error with "Unimplemented procedure Seek_Monotonic_Usec";
+   end Seek_Monotonic_Usec;
 
    ------------------------
-   -- seek_realtime_usec --
+   -- Seek_Realtime_Usec --
    ------------------------
 
-   function seek_realtime_usec
-     (j : access sd_journal; usec : unsigned_long) return int
+   procedure Seek_Realtime_Usec (J : in out Sd_Journal; Usec : Unsigned_Long)
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "seek_realtime_usec unimplemented");
-      return
-        raise Program_Error with "Unimplemented function seek_realtime_usec";
-   end seek_realtime_usec;
+        (Standard.True, "Seek_Realtime_Usec unimplemented");
+      raise Program_Error with "Unimplemented procedure Seek_Realtime_Usec";
+   end Seek_Realtime_Usec;
 
    -----------------
-   -- seek_cursor --
+   -- Seek_Cursor --
    -----------------
 
-   function seek_cursor (j : access sd_journal; cursor : String) return int is
+   procedure Seek_Cursor (J : in out Sd_Journal; Cursor : String) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "seek_cursor unimplemented");
-      return raise Program_Error with "Unimplemented function seek_cursor";
-   end seek_cursor;
+      pragma Compile_Time_Warning (Standard.True, "Seek_Cursor unimplemented");
+      raise Program_Error with "Unimplemented procedure Seek_Cursor";
+   end Seek_Cursor;
 
    ----------------
-   -- get_cursor --
+   -- Get_Cursor --
    ----------------
 
-   function get_cursor
-     (j : access sd_journal; cursor : System.Address) return int
+   function Get_Cursor (J : in out Sd_Journal) return String is
+   begin
+      pragma Compile_Time_Warning (Standard.True, "Get_Cursor unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Cursor";
+   end Get_Cursor;
+
+   -----------------
+   -- Test_Cursor --
+   -----------------
+
+   function Test_Cursor (J : in out Sd_Journal; Cursor : String) return Boolean
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_cursor unimplemented");
-      return raise Program_Error with "Unimplemented function get_cursor";
-   end get_cursor;
-
-   -----------------
-   -- test_cursor --
-   -----------------
-
-   function test_cursor (j : access sd_journal; cursor : String) return int is
-   begin
-      pragma Compile_Time_Warning (Standard.True, "test_cursor unimplemented");
-      return raise Program_Error with "Unimplemented function test_cursor";
-   end test_cursor;
+      pragma Compile_Time_Warning (Standard.True, "Test_Cursor unimplemented");
+      return raise Program_Error with "Unimplemented function Test_Cursor";
+   end Test_Cursor;
 
    ------------------------------
-   -- get_cutoff_realtime_usec --
+   -- Get_Cutoff_Realtime_Usec --
    ------------------------------
 
-   function get_cutoff_realtime_usec
-     (j  : access sd_journal; from : access unsigned_long;
-      to : access unsigned_long) return int
+   function Get_Cutoff_Realtime_Usec
+     (J  : in out Sd_Journal; From : access Unsigned_Long;
+      To :        access Unsigned_Long) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "get_cutoff_realtime_usec unimplemented");
+        (Standard.True, "Get_Cutoff_Realtime_Usec unimplemented");
       return
         raise Program_Error
-          with "Unimplemented function get_cutoff_realtime_usec";
-   end get_cutoff_realtime_usec;
+          with "Unimplemented function Get_Cutoff_Realtime_Usec";
+   end Get_Cutoff_Realtime_Usec;
 
    -------------------------------
-   -- get_cutoff_monotonic_usec --
+   -- Get_Cutoff_Monotonic_Usec --
    -------------------------------
 
-   function get_cutoff_monotonic_usec
-     (j    : access sd_journal; boot_id : Systemd.Id128.id128_t;
-      from : access unsigned_long; to : access unsigned_long) return int
+   function Get_Cutoff_Monotonic_Usec
+     (J    : in out Sd_Journal; Boot_Id : Systemd.Id128.Id128_T;
+      From :        access Unsigned_Long; To : access Unsigned_Long) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "get_cutoff_monotonic_usec unimplemented");
+        (Standard.True, "Get_Cutoff_Monotonic_Usec unimplemented");
       return
         raise Program_Error
-          with "Unimplemented function get_cutoff_monotonic_usec";
-   end get_cutoff_monotonic_usec;
+          with "Unimplemented function Get_Cutoff_Monotonic_Usec";
+   end Get_Cutoff_Monotonic_Usec;
 
    ---------------
-   -- get_usage --
+   -- Get_Usage --
    ---------------
 
-   function get_usage
-     (j : access sd_journal; bytes : access unsigned_long) return int
+   function Get_Usage
+     (J : in out Sd_Journal; Bytes : access Unsigned_Long) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_usage unimplemented");
-      return raise Program_Error with "Unimplemented function get_usage";
-   end get_usage;
+      pragma Compile_Time_Warning (Standard.True, "Get_Usage unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Usage";
+   end Get_Usage;
 
    ------------------
-   -- query_unique --
+   -- Query_Unique --
    ------------------
 
-   function query_unique (j : access sd_journal; field : String) return int is
+   function Query_Unique (J : in out Sd_Journal; Field : String) return Int is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "query_unique unimplemented");
-      return raise Program_Error with "Unimplemented function query_unique";
-   end query_unique;
+        (Standard.True, "Query_Unique unimplemented");
+      return raise Program_Error with "Unimplemented function Query_Unique";
+   end Query_Unique;
 
    ----------------------
-   -- enumerate_unique --
+   -- Enumerate_Unique --
    ----------------------
 
-   function enumerate_unique
-     (j : access sd_journal; data : System.Address; l : access unsigned_long)
-      return int
+   function Enumerate_Unique
+     (J : in out Sd_Journal; Data : System.Address; L : access Unsigned_Long)
+      return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "enumerate_unique unimplemented");
+        (Standard.True, "Enumerate_Unique unimplemented");
       return
-        raise Program_Error with "Unimplemented function enumerate_unique";
-   end enumerate_unique;
+        raise Program_Error with "Unimplemented function Enumerate_Unique";
+   end Enumerate_Unique;
 
    --------------------
-   -- restart_unique --
+   -- Restart_Unique --
    --------------------
 
-   procedure restart_unique (j : access sd_journal) is
+   procedure Restart_Unique (J : in out Sd_Journal) is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "restart_unique unimplemented");
-      raise Program_Error with "Unimplemented procedure restart_unique";
-   end restart_unique;
+        (Standard.True, "Restart_Unique unimplemented");
+      raise Program_Error with "Unimplemented procedure Restart_Unique";
+   end Restart_Unique;
 
    ----------------------
-   -- enumerate_fields --
+   -- Enumerate_Fields --
    ----------------------
 
-   function enumerate_fields
-     (j : access sd_journal; field : System.Address) return int
+   function Enumerate_Fields
+     (J : in out Sd_Journal; Field : System.Address) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "enumerate_fields unimplemented");
+        (Standard.True, "Enumerate_Fields unimplemented");
       return
-        raise Program_Error with "Unimplemented function enumerate_fields";
-   end enumerate_fields;
+        raise Program_Error with "Unimplemented function Enumerate_Fields";
+   end Enumerate_Fields;
 
    --------------------
-   -- restart_fields --
+   -- Restart_Fields --
    --------------------
 
-   procedure restart_fields (j : access sd_journal) is
+   procedure Restart_Fields (J : in out Sd_Journal) is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "restart_fields unimplemented");
-      raise Program_Error with "Unimplemented procedure restart_fields";
-   end restart_fields;
+        (Standard.True, "Restart_Fields unimplemented");
+      raise Program_Error with "Unimplemented procedure Restart_Fields";
+   end Restart_Fields;
 
    ------------
-   -- get_fd --
+   -- Get_Fd --
    ------------
 
-   function get_fd (j : access sd_journal) return int is
+   function Get_Fd (J : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_fd unimplemented");
-      return raise Program_Error with "Unimplemented function get_fd";
-   end get_fd;
+      pragma Compile_Time_Warning (Standard.True, "Get_Fd unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Fd";
+   end Get_Fd;
 
    ----------------
-   -- get_events --
+   -- Get_Events --
    ----------------
 
-   function get_events (j : access sd_journal) return int is
+   function Get_Events (J : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_events unimplemented");
-      return raise Program_Error with "Unimplemented function get_events";
-   end get_events;
+      pragma Compile_Time_Warning (Standard.True, "Get_Events unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Events";
+   end Get_Events;
 
    -----------------
-   -- get_timeout --
+   -- Get_Timeout --
    -----------------
 
-   function get_timeout
-     (j : access sd_journal; timeout_usec : access unsigned_long) return int
+   function Get_Timeout
+     (J : in out Sd_Journal; Timeout_Usec : access Unsigned_Long) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_timeout unimplemented");
-      return raise Program_Error with "Unimplemented function get_timeout";
-   end get_timeout;
+      pragma Compile_Time_Warning (Standard.True, "Get_Timeout unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Timeout";
+   end Get_Timeout;
 
    -------------
-   -- process --
+   -- Process --
    -------------
 
-   function process (j : access sd_journal) return int is
+   function Process (J : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "process unimplemented");
-      return raise Program_Error with "Unimplemented function process";
-   end process;
+      pragma Compile_Time_Warning (Standard.True, "Process unimplemented");
+      return raise Program_Error with "Unimplemented function Process";
+   end Process;
 
    ----------
-   -- wait --
+   -- Wait --
    ----------
 
-   function wait
-     (j : access sd_journal; timeout_usec : unsigned_long) return int
+   function Wait
+     (J : in out Sd_Journal; Timeout_Usec : Unsigned_Long) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "wait unimplemented");
-      return raise Program_Error with "Unimplemented function wait";
-   end wait;
+      pragma Compile_Time_Warning (Standard.True, "Wait unimplemented");
+      return raise Program_Error with "Unimplemented function Wait";
+   end Wait;
 
    -----------------
-   -- reliable_fd --
+   -- Reliable_Fd --
    -----------------
 
-   function reliable_fd (j : access sd_journal) return int is
+   function Reliable_Fd (J : in out Sd_Journal) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "reliable_fd unimplemented");
-      return raise Program_Error with "Unimplemented function reliable_fd";
-   end reliable_fd;
+      pragma Compile_Time_Warning (Standard.True, "Reliable_Fd unimplemented");
+      return raise Program_Error with "Unimplemented function Reliable_Fd";
+   end Reliable_Fd;
 
    -----------------
-   -- get_catalog --
+   -- Get_Catalog --
    -----------------
 
-   function get_catalog
-     (j : access sd_journal; text : System.Address) return int
+   function Get_Catalog
+     (J : in out Sd_Journal; Text : System.Address) return Int
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "get_catalog unimplemented");
-      return raise Program_Error with "Unimplemented function get_catalog";
-   end get_catalog;
+      pragma Compile_Time_Warning (Standard.True, "Get_Catalog unimplemented");
+      return raise Program_Error with "Unimplemented function Get_Catalog";
+   end Get_Catalog;
 
    --------------------------------
-   -- get_catalog_for_message_id --
+   -- Get_Catalog_For_Message_Id --
    --------------------------------
 
-   function get_catalog_for_message_id
-     (id : Systemd.Id128.id128_t; text : System.Address) return int
+   function Get_Catalog_For_Message_Id
+     (Id : Systemd.Id128.Id128_T; Text : System.Address) return Int
    is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "get_catalog_for_message_id unimplemented");
+        (Standard.True, "Get_Catalog_For_Message_Id unimplemented");
       return
         raise Program_Error
-          with "Unimplemented function get_catalog_for_message_id";
-   end get_catalog_for_message_id;
+          with "Unimplemented function Get_Catalog_For_Message_Id";
+   end Get_Catalog_For_Message_Id;
 
    -----------------------
-   -- has_runtime_files --
+   -- Has_Runtime_Files --
    -----------------------
 
-   function has_runtime_files (j : access sd_journal) return int is
+   function Has_Runtime_Files (J : in out Sd_Journal) return Boolean is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "has_runtime_files unimplemented");
+        (Standard.True, "Has_Runtime_Files unimplemented");
       return
-        raise Program_Error with "Unimplemented function has_runtime_files";
-   end has_runtime_files;
+        raise Program_Error with "Unimplemented function Has_Runtime_Files";
+   end Has_Runtime_Files;
 
    --------------------------
-   -- has_persistent_files --
+   -- Has_Persistent_Files --
    --------------------------
 
-   function has_persistent_files (j : access sd_journal) return int is
+   function Has_Persistent_Files (J : in out Sd_Journal) return Boolean is
    begin
       pragma Compile_Time_Warning
-        (Standard.True, "has_persistent_files unimplemented");
+        (Standard.True, "Has_Persistent_Files unimplemented");
       return
-        raise Program_Error with "Unimplemented function has_persistent_files";
-   end has_persistent_files;
+        raise Program_Error with "Unimplemented function Has_Persistent_Files";
+   end Has_Persistent_Files;
 
    ------------
-   -- closep --
+   -- Closep --
    ------------
 
-   procedure closep (p : System.Address) is
+   procedure Closep (P : System.Address) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "closep unimplemented");
-      raise Program_Error with "Unimplemented procedure closep";
-   end closep;
+      pragma Compile_Time_Warning (Standard.True, "Closep unimplemented");
+      raise Program_Error with "Unimplemented procedure Closep";
+   end Closep;
 
-end Systemd.journals;
+end Systemd.Journals;
