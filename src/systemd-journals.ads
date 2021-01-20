@@ -1,9 +1,12 @@
 pragma Ada_2012;
+
 with Interfaces.C; use Interfaces.C;
 with System;
 
 with Systemd.Id128;
+
 private with Systemd.Low_Level.Systemd_Sd_Journal_H;
+
 package Systemd.Journals is
 
    function Print (Priority : Int;
