@@ -1,6 +1,6 @@
 pragma Ada_2012;
 package body Systemd.Journals is
-
+   pragma Warnings (Off);
    -----------
    -- Print --
    -----------
@@ -601,7 +601,7 @@ package body Systemd.Journals is
    -----------------
 
    function Get_Timeout
-     (J : in out Sd_Journal; Timeout_Usec : access Unsigned_Long) return Int
+     (J : in out Sd_Journal) return Duration
    is
    begin
       pragma Compile_Time_Warning (Standard.True, "Get_Timeout unimplemented");
@@ -622,12 +622,11 @@ package body Systemd.Journals is
    -- Wait --
    ----------
 
-   function Wait
-     (J : in out Sd_Journal; Timeout_Usec : Unsigned_Long) return Int
+   procedure Wait (J : in out Sd_Journal; Timeout : Duration)
    is
    begin
       pragma Compile_Time_Warning (Standard.True, "Wait unimplemented");
-      return raise Program_Error with "Unimplemented function Wait";
+      raise Program_Error with "Unimplemented function Wait";
    end Wait;
 
    -----------------
@@ -645,7 +644,7 @@ package body Systemd.Journals is
    -----------------
 
    function Get_Catalog
-     (J : in out Sd_Journal; Text : System.Address) return Int
+     (J : in out Sd_Journal) return String
    is
    begin
       pragma Compile_Time_Warning (Standard.True, "Get_Catalog unimplemented");
@@ -657,7 +656,7 @@ package body Systemd.Journals is
    --------------------------------
 
    function Get_Catalog_For_Message_Id
-     (Id : Systemd.Id128.Id128_T; Text : System.Address) return Int
+     (Id : Systemd.Id128.Id128_T) return String
    is
    begin
       pragma Compile_Time_Warning
@@ -671,7 +670,7 @@ package body Systemd.Journals is
    -- Has_Runtime_Files --
    -----------------------
 
-   function Has_Runtime_Files (J : in out Sd_Journal) return Boolean is
+   function Has_Runtime_Files (J : Sd_Journal) return Boolean is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Has_Runtime_Files unimplemented");
@@ -683,7 +682,7 @@ package body Systemd.Journals is
    -- Has_Persistent_Files --
    --------------------------
 
-   function Has_Persistent_Files (J : in out Sd_Journal) return Boolean is
+   function Has_Persistent_Files (J : Sd_Journal) return Boolean is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Has_Persistent_Files unimplemented");
@@ -695,7 +694,7 @@ package body Systemd.Journals is
    -- Closep --
    ------------
 
-   procedure Closep (P : System.Address) is
+   procedure Closep (P : in out Sd_Journal) is
    begin
       pragma Compile_Time_Warning (Standard.True, "Closep unimplemented");
       raise Program_Error with "Unimplemented procedure Closep";
