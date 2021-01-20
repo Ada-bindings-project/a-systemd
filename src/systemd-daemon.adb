@@ -2,6 +2,7 @@ pragma Ada_2012;
 with Interfaces.C.Strings;
 with Systemd.Low_Level.Systemd_Sd_Daemon_H;
 package body Systemd.Daemon is
+   pragma Warnings (Off);
    use Systemd.Low_Level.Systemd_Sd_Daemon_H;
 
    ----------------
