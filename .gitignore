@@ -20,3 +20,4 @@ clang_ref_cache.db
 .messages.txt
 *.idx
 .obj
+*.pyc
