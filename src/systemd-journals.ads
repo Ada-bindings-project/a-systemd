@@ -65,7 +65,7 @@ package Systemd.Journals is
       Level_Prefix : Int) return Int;
 
    --  Browse journal stream
-   type Sd_Journal is tagged private;   -- incomplete struct
+   type Sd_Journal is tagged private;
 
    --  Open flags
    --  deprecated name
@@ -187,23 +187,23 @@ package Systemd.Journals is
 
    function Get_Events (J : in out Sd_Journal) return Int;
 
-   function Get_Timeout (J : in out Sd_Journal; Timeout_Usec : access Unsigned_Long) return Int;
+   function Get_Timeout (J : in out Sd_Journal) return Duration;
 
    function Process (J : in out Sd_Journal) return Int;
 
-   function Wait (J : in out Sd_Journal; Timeout_Usec : Unsigned_Long) return Int;
+   procedure Wait (J : in out Sd_Journal; Timeout : Duration);
 
    function Reliable_Fd (J : in out Sd_Journal) return Int;
 
-   function Get_Catalog (J : in out Sd_Journal; Text : System.Address) return Int;
+   function Get_Catalog (J : in out Sd_Journal) return String;
 
-   function Get_Catalog_For_Message_Id (Id : Systemd.Id128.Id128_T; Text : System.Address) return Int;
+   function Get_Catalog_For_Message_Id (Id : Systemd.Id128.Id128_T) return String;
 
-   function Has_Runtime_Files (J : in out Sd_Journal) return Boolean;
+   function Has_Runtime_Files (J : Sd_Journal) return Boolean;
 
-   function Has_Persistent_Files (J : in out Sd_Journal) return Boolean;
+   function Has_Persistent_Files (J : Sd_Journal) return Boolean;
 
-   procedure Closep (P : System.Address);
+   procedure Closep (P : in out Sd_Journal);
 private
    type Sd_Journal_Access is access all Systemd.Low_Level.Systemd_Sd_Journal_H.Sd_Journal with Storage_Size => 0;
    type Sd_Journal is tagged record

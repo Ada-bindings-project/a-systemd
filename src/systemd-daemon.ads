@@ -223,9 +223,11 @@ package Systemd.Daemon is
    --  See notifyf() for more complete examples.
    --  See notify(3) for more information.
    --
-   function Notify (Unset_Environment : Boolean := False;
-                    State             : String) return Int;
+   function Notify (State             : String;
+                    Unset_Environment : Boolean := False) return Int;
 
+   procedure Notify (State             : String;
+                    Unset_Environment : Boolean := False);
 
    function Pid_Notify
      (Pid               : GNAT.OS_Lib.Process_Id;

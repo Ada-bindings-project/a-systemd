@@ -3,7 +3,6 @@ with Interfaces.C.Strings;
 with Systemd.Low_Level.Systemd_Sd_Daemon_H;
 package body Systemd.Daemon is
    use Systemd.Low_Level.Systemd_Sd_Daemon_H;
-   use Interfaces.C;
 
    ----------------
    -- Listen_Fds --
@@ -128,7 +127,8 @@ package body Systemd.Daemon is
    ------------
 
    function Notify
-     (Unset_Environment : Boolean := False; State : String) return Int
+     (State             : String;
+      Unset_Environment : Boolean := False) return Int
    is
       Ret : Int;
       S   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (State);
@@ -137,6 +137,11 @@ package body Systemd.Daemon is
       Interfaces.C.Strings.Free (S);
       return ret;
    end notify;
+   procedure Notify (State             : String;
+                     Unset_Environment : Boolean := False) is
+   begin
+      Retcode_2_Exception (Notify (State, Unset_Environment));
+   end;
 
    ----------------
    -- Pid_Notify --

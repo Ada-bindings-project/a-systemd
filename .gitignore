@@ -18,3 +18,5 @@ messages.txt
 .generate
 clang_ref_cache.db
 .messages.txt
+*.idx
+.obj
