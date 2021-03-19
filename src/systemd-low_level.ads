@@ -2,7 +2,6 @@
 --  low levelC types.
 --  All generated specs will apear unter this root.
 
-limited with Systemd.Low_Level.Linker_Options;
 with Interfaces.C;
 private package Systemd.Low_Level is
    subtype Uid_T is Interfaces.C.int;

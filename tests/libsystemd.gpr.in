@@ -1,0 +1,7 @@
+abstract project libsystemd is
+   package Linker is
+      for Linker_Options use ("-L" & "@_LIBRARY_LOCATION_@",
+                              "-l" & "@_LIBRARY_NAME_@");
+
+   end Linker;
+end libsystemd;

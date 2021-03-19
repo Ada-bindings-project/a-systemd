@@ -1,3 +1,4 @@
+with "libsystemd.gpr";
 project Systemd is
    for Create_Missing_Dirs use "True";
    for Source_Dirs use ("src/**", ".", "sed");

@@ -1,0 +1,7 @@
+abstract project libsystemd is
+   package Linker is
+      for Linker_Options use ("-L" & "/lib/x86_64-linux-gnu",
+                              "-l" & "systemd");
+
+   end Linker;
+end libsystemd;
