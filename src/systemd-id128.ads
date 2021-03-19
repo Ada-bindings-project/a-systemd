@@ -1,4 +1,5 @@
 private with Systemd.Low_Level.Systemd_Sd_Id128_H;
+with Ada.Containers;
 package Systemd.Id128 is
 
    type Id128_T is private;
@@ -30,6 +31,7 @@ package Systemd.Id128 is
 
    function Is_All (A : Id128_T) return Boolean is
      (A = All_Id128);
+   function Hash ( Item : Id128_T) return Ada.Containers.Hash_Type;
 
 private
    type Id128_T is new Systemd.Low_Level.Systemd_Sd_Id128_H.Sd_Id128_T;

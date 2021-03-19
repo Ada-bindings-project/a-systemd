@@ -2,7 +2,9 @@ pragma Ada_2012;
 with Interfaces.C.Strings;
 with ADa.Unchecked_Conversion;
 with System;
+with Ada.Strings.Hash;
 package body Systemd.Id128 is
+
    use Systemd.Low_Level.Systemd_Sd_Id128_H;
    use type Interfaces.C.Int;
    pragma Warnings (Off, "variable ""Ret"" is read but never assigned");
@@ -104,5 +106,12 @@ package body Systemd.Id128 is
    begin
       return A.Bytes = B.Bytes;
    end "=";
+   function Hash (Item : Id128_T) return Ada.Containers.Hash_Type is
+      S : String (1 .. Item'Size / Character'Size) with
+        Import => True,
+        Address => Item'Address;
+   begin
+      return Ada.Strings.Hash (S);
+   end;
 
 end Systemd.Id128;

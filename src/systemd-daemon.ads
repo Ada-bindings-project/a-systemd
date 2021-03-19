@@ -2,6 +2,7 @@
 with Interfaces.C;
 with System;
 with GNAT.OS_Lib;
+with GNAT.Sockets;
 package Systemd.Daemon is
    use Interfaces.C;
 
@@ -116,8 +117,8 @@ package Systemd.Daemon is
      (Fd        : GNAT.OS_Lib.File_Descriptor;
       Family    : Int;
       C_Type    : Int;
-      Listening : Int;
-      Port      : Unsigned_Short) return Boolean;
+      Listening : Boolean;
+      Port      : GNAT.Sockets.Port_Type) return Boolean;
 
 
    --  Helper call for identifying a passed file descriptor. Returns 1 if the
@@ -131,10 +132,10 @@ package Systemd.Daemon is
 
    function Is_Socket_Sockaddr
      (Fd        : GNAT.OS_Lib.File_Descriptor;
-      C_Type    : Int;
-      Addr      : access constant Int;
-      Addr_Len  : Unsigned;
-      Listening : Int) return Boolean;
+      C_Type    : GNAT.Sockets.Socket_Type;
+      Addr      : GNAT.Sockets.Inet_Addr_Type;
+      Listening : Boolean)
+      return Boolean;
 
    --  Helper call for identifying a passed file descriptor. Returns 1 if
    --  the file descriptor is an AF_UNIX socket of the specified type

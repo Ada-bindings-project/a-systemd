@@ -25,7 +25,7 @@ package Systemd.Bus is
    --    16, (x).bytes(0), (x).bytes(1), (x).bytes(2), (x).bytes(3), (x).bytes(4), (x).bytes(5), (x).bytes(6), (x).bytes(7), (x).bytes(8), (x).bytes(9), (x).bytes(10), (x).bytes(11), (x).bytes(12), (x).bytes(13), (x).bytes(14), (x).bytes(15)
    --  arg-macro: procedure MESSAGE_READ_ID128 (x)
    --    16, and(x).bytes(0), and(x).bytes(1), and(x).bytes(2), and(x).bytes(3), and(x).bytes(4), and(x).bytes(5), and(x).bytes(6), and(x).bytes(7), and(x).bytes(8), and(x).bytes(9), and(x).bytes(10), and(x).bytes(11), and(x).bytes(12), and(x).bytes(13), and(x).bytes(14), and(x).bytes(15)
-   -- SPDX-License-Identifier: LGPL-2.1+
+   --  SPDX-License-Identifier: LGPL-2.1+
    --**
    --  systemd is free software; you can redistribute it and/or modify it
    --  under the terms of the GNU Lesser General Public License as published by
@@ -39,7 +39,7 @@ package Systemd.Bus is
    --  along with systemd; If not, see <http://www.gnu.org/licenses/>.
    --**
 
-   -- Types
+   --  Types
 
    type Sd_Bus is tagged private;
 
@@ -57,9 +57,9 @@ package Systemd.Bus is
 
    type Error_Map is private;
 
-   -- Flags
-   -- special flag, if on sd-bus will augment creds struct, in a potentially race-full way.
-   -- SPDX-License-Identifier: LGPL-2.1+
+   --  Flags
+   --  special flag, if on sd-bus will augment creds struct, in a potentially race-full way.
+   --  SPDX-License-Identifier: LGPL-2.1+
    type Message_Handler_T is access function
      (Arg1 : access Message;
       Arg2 : System.Address;
@@ -104,7 +104,8 @@ package Systemd.Bus is
      with Convention => C;  -- /usr/include/systemd/sd-bus.h:108
 
    type Track_Handler_T is access function (Arg1 : access Track; Arg2 : System.Address) return Int
-     with Convention => C;  -- /usr/include/systemd/sd-bus.h:109
+     with Convention => C;
+
    function Default (Ret : System.Address) return Int;
 
    function Default_User (Ret : System.Address) return Int;
@@ -127,7 +128,7 @@ package Systemd.Bus is
 
    function Open_System_Machine (Ret : System.Address; Machine : String) return Int;
 
-   function New (Ret : System.Address) return Int;
+   function New_Bus (Ret : System.Address) return Int;
 
    function Set_Address (Bus : access Sd_Bus; Address : String) return Int;
 
@@ -139,8 +140,7 @@ package Systemd.Bus is
    function Set_Exec
      (Bus  : access Sd_Bus;
       Path : String;
-      Argv : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:134
-   ;
+      Argv : System.Address) return Int;
 
    function Get_Address (Bus : access Sd_Bus; Address : System.Address) return Int;
 
@@ -241,18 +241,18 @@ package Systemd.Bus is
 
    function Send
      (Bus    : access Sd_Bus;
-      M      : access Message;
+      M      : access Message'class;
       Cookie : access Unsigned_Long) return Int ;
 
    function Send_To
      (Bus         : access Sd_Bus;
-      M           : access Message;
+      M           : access Message'class;
       Destination : String;
       Cookie      : access Unsigned_Long) return Int;
 
    function Call
      (Bus       : access Sd_Bus;
-      M         : access Message;
+      M         : access Message'class;
       Usec      : Unsigned_Long;
       Ret_Error : access Error;
       Reply     : System.Address) return Int;
@@ -260,7 +260,7 @@ package Systemd.Bus is
    function Call_Async
      (Bus      : access Sd_Bus;
       Slot     : System.Address;
-      M        : access Message;
+      M        : access Message'class;
       Callback : Message_Handler_T;
       Userdata : System.Address;
       Usec     : Unsigned_Long) return Int;
@@ -282,9 +282,9 @@ package Systemd.Bus is
 
    function Flush (Bus : access Sd_Bus) return Int;
 
-   function Get_Current_Slot (Bus : access Sd_Bus) return access Slot;
+   function Get_Current_Slot (Bus : access Sd_Bus) return access Slot'class;
 
-   function Get_Current_Message (Bus : access Sd_Bus) return access Message;
+   function Get_Current_Message (Bus : access Sd_Bus) return access Message'class;
 
    function Get_Current_Handler (Bus : access Sd_Bus) return Message_Handler_T;
 
@@ -371,47 +371,36 @@ package Systemd.Bus is
       Slot : System.Address;
       Path : String) return Int;
 
-   -- Slot object
-   function Slot_Ref (Slot : access Slot) return access Slot;
+   --  Slot object
+   function Slot_Ref (S : access Slot) return access Slot'class;
 
-   function Slot_Unref (Slot : access Slot) return access Slot;
+   function Slot_Unref (S : access Slot) return access Slot'class;
 
-   function Slot_Get_Bus (Slot : access Slot) return access Sd_Bus;
+   function Slot_Get_Bus (s : access Slot) return access Sd_Bus'class;
 
-   function Slot_Get_Userdata (Slot : access Slot) return System.Address  -- /usr/include/systemd/sd-bus.h:230
-   ;
+   function Slot_Get_Userdata (S : access Slot) return System.Address;
 
-   function Slot_Set_Userdata (Slot : access Slot; Userdata : System.Address) return System.Address  -- /usr/include/systemd/sd-bus.h:231
-   ;
+   function Slot_Set_Userdata (S : access Slot; Userdata : System.Address) return System.Address;
 
-   function Slot_Set_Description (Slot : access Slot; Description : String) return Int  -- /usr/include/systemd/sd-bus.h:232
-   ;
+   function Slot_Set_Description (S : access Slot; Description : String) return Int;
 
-   function Slot_Get_Description (Slot : access Slot; Description : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:233
-   ;
+   function Slot_Get_Description (S : access Slot; Description : System.Address) return Int;
 
-   function Slot_Get_Floating (Slot : access Slot) return Int  -- /usr/include/systemd/sd-bus.h:234
-   ;
+   function Slot_Get_Floating (S : access Slot) return Int;
 
-   function Slot_Set_Floating (Slot : access Slot; B : Int) return Int  -- /usr/include/systemd/sd-bus.h:235
-   ;
+   function Slot_Set_Floating (S : access Slot; B : Int) return Int;
 
-   function Slot_Set_Destroy_Callback (S : access Slot; Callback : Destroy_T) return Int  -- /usr/include/systemd/sd-bus.h:236
-   ;
+   function Slot_Set_Destroy_Callback (S : access Slot; Callback : Destroy_T) return Int;
 
-   function Slot_Get_Destroy_Callback (S : access Slot; Callback : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:237
-   ;
+   function Slot_Get_Destroy_Callback (S : access Slot; Callback : System.Address) return Int;
 
-   function Slot_Get_Current_Message (Slot : access Slot) return access Message  -- /usr/include/systemd/sd-bus.h:239
-   ;
+   function Slot_Get_Current_Message (S : access Slot) return access Message'class;
 
-   function Slot_Get_Current_Handler (Slot : access Slot) return Message_Handler_T  -- /usr/include/systemd/sd-bus.h:240
-   ;
+   function Slot_Get_Current_Handler (S : access Slot) return Message_Handler_T;
 
-   function Slot_Get_Current_Userdata (Slot : access Slot) return System.Address  -- /usr/include/systemd/sd-bus.h:241
-   ;
+   function Slot_Get_Current_Userdata (S : access Slot) return System.Address;
 
-   -- Message object
+   --  Message object
    function Message_New
      (Bus    : access Sd_Bus;
       M      : System.Address;
@@ -455,7 +444,7 @@ package Systemd.Bus is
    function Message_New_Method_Errno
      (Call  : access Message;
       M     : System.Address;
-      Error : Int;
+      ErrorCode : Int;
       E     : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:251
    ;
 
@@ -533,12 +522,9 @@ package Systemd.Bus is
    function Message_Get_Seqnum (M : access Message; Seqnum : access Unsigned_Long) return Int  -- /usr/include/systemd/sd-bus.h:279
    ;
 
-   function Message_Get_Bus (M : access Message) return access Sd_Bus  -- /usr/include/systemd/sd-bus.h:281
-   ;
+   function Message_Get_Bus (M : access Message) return access Sd_Bus'CLASS;
 
-   -- do not unref the result
-   function Message_Get_Creds (M : access Message) return access Creds  -- /usr/include/systemd/sd-bus.h:282
-   ;
+   function Message_Get_Creds (M : access Message) return access Creds'Class;
 
    function Message_Is_Signal
      (M           : access Message;
@@ -580,7 +566,7 @@ package Systemd.Bus is
    ;
 
    function Message_Append (M : access Message; Types : String  -- , ...
-                                  ) return Int  -- /usr/include/systemd/sd-bus.h:298
+                           ) return Int  -- /usr/include/systemd/sd-bus.h:298
    ;
 
    function Message_Appendv
@@ -662,7 +648,7 @@ package Systemd.Bus is
    ;
 
    function Message_Read (M : access Message; Types : String  -- , ...
-                                ) return Int  -- /usr/include/systemd/sd-bus.h:313
+                         ) return Int  -- /usr/include/systemd/sd-bus.h:313
    ;
 
    function Message_Readv
@@ -684,7 +670,7 @@ package Systemd.Bus is
       Size   : access Unsigned_Long) return Int  -- /usr/include/systemd/sd-bus.h:316
    ;
 
-   -- free the result!
+   --  free the result!
    function Message_Read_Strv (M : access Message; L : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:317
    ;
 
@@ -718,7 +704,7 @@ package Systemd.Bus is
    function Message_Rewind (M : access Message; Complete : Int) return Int  -- /usr/include/systemd/sd-bus.h:324
    ;
 
-   -- Bus management
+   --  Bus management
    function Get_Unique_Name (Bus : access Sd_Bus; Unique : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:328
    ;
 
@@ -748,14 +734,14 @@ package Systemd.Bus is
       Userdata : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:332
    ;
 
-   -- free the results
+   --  free the results
    function List_Names
      (Bus         : access Sd_Bus;
       Acquired    : System.Address;
       Activatable : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:333
    ;
 
-   -- unref the result!
+   --  unref the result!
    function Get_Name_Creds
      (Bus   : access Sd_Bus;
       Name  : String;
@@ -769,7 +755,7 @@ package Systemd.Bus is
       Machine : Systemd.Id128.Id128_T) return Int  -- /usr/include/systemd/sd-bus.h:335
    ;
 
-   -- Convenience calls
+   --  Convenience calls
    function Call_Method
      (Bus         : access Sd_Bus;
       Destination : String;
@@ -817,7 +803,7 @@ package Systemd.Bus is
       Ret_Ptr     : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:342
    ;
 
-   -- free the result!
+   --  free the result!
    function Get_Property_String
      (Bus         : access Sd_Bus;
       Destination : String;
@@ -828,7 +814,7 @@ package Systemd.Bus is
       Ret         : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:343
    ;
 
-   -- free the result!
+   --  free the result!
    function Get_Property_Strv
      (Bus         : access Sd_Bus;
       Destination : String;
@@ -851,7 +837,7 @@ package Systemd.Bus is
    ;
 
    function Reply_Method_Return (Call : access Message; Types : String  -- , ...
-                                       ) return Int  -- /usr/include/systemd/sd-bus.h:347
+                                ) return Int  -- /usr/include/systemd/sd-bus.h:347
    ;
 
    function Reply_Method_Error (Call : access Message; E : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:348
@@ -866,7 +852,7 @@ package Systemd.Bus is
 
    function Reply_Method_Errno
      (Call  : access Message;
-      Error : Int;
+      ErrorCode : Int;
       E     : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:350
    ;
 
@@ -965,7 +951,7 @@ package Systemd.Bus is
       Userdata       : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:369
    ;
 
-   -- Credential handling
+   --  Credential handling
    function Creds_New_From_Pid
      (Ret        : System.Address;
       Pid        : Int;
@@ -1082,7 +1068,7 @@ package Systemd.Bus is
    function Creds_Get_Description (C : access Creds; Name : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:412
    ;
 
-   -- Error structures
+   --  Error structures
    procedure Error_Free (E : access Error)  -- /usr/include/systemd/sd-bus.h:419
    ;
 
@@ -1140,8 +1126,8 @@ package Systemd.Bus is
    function Error_Add_Map (Map : access constant Error_Map) return Int  -- /usr/include/systemd/sd-bus.h:443
    ;
 
-   -- Auxiliary macros
-   -- Label escaping
+   --  Auxiliary macros
+   --  Label escaping
    function Path_Encode
      (Prefix      : String;
       External_Id : String;
@@ -1149,7 +1135,7 @@ package Systemd.Bus is
    ;
 
    function Path_Encode_Many (C_Out : System.Address; Path_Template : String  -- , ...
-                                    ) return Int  -- /usr/include/systemd/sd-bus.h:462
+                             ) return Int  -- /usr/include/systemd/sd-bus.h:462
    ;
 
    function Path_Decode
@@ -1159,64 +1145,56 @@ package Systemd.Bus is
    ;
 
    function Path_Decode_Many (Path : String; Path_Template : String  -- , ...
-                                    ) return Int  -- /usr/include/systemd/sd-bus.h:464
+                             ) return Int  -- /usr/include/systemd/sd-bus.h:464
    ;
 
-   -- Tracking peers
+   --  Tracking peers
 
    function Track_New
      (Bus      : access Sd_Bus;
       Track    : System.Address;
       Handler  : Track_Handler_T;
-      Userdata : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:468
-   ;
+      Userdata : System.Address) return Int;
 
-   function Track_Ref (Track : access Track) return access Track  -- /usr/include/systemd/sd-bus.h:469
-   ;
+   function Track_Ref (t : access Track) return access Track'Class;
 
-   function Track_Unref (Track : access Track) return access Track  -- /usr/include/systemd/sd-bus.h:470
-   ;
+   function Track_Unref (t : access Track) return access Track'Class;
 
-   function Track_Get_Bus (Track : access Track) return access Sd_Bus  -- /usr/include/systemd/sd-bus.h:472
-   ;
+   function Track_Get_Bus (t : access Track) return access Sd_Bus'Class;
 
-   function Track_Get_Userdata (Track : access Track) return System.Address  -- /usr/include/systemd/sd-bus.h:473
-   ;
+   function Track_Get_Userdata (t : access Track) return System.Address;
 
-   function Track_Set_Userdata (Track : access Track; Userdata : System.Address) return System.Address  -- /usr/include/systemd/sd-bus.h:474
-   ;
+   function Track_Set_Userdata (t : access Track; Userdata : System.Address) return System.Address;
 
-   function Track_Add_Sender (Track : access Track; M : access Message) return Int  -- /usr/include/systemd/sd-bus.h:476
-   ;
+   function Track_Add_Sender (t : access Track; M : access Message'Class) return Int;
 
-   function Track_Remove_Sender (Track : access Track; M : access Message) return Int  -- /usr/include/systemd/sd-bus.h:477
-   ;
+   function Track_Remove_Sender (t : access Track; M : access Message'Class) return Int;
 
-   function Track_Add_Name (Track : access Track; Name : String) return Int;
+   function Track_Add_Name (t : access Track; Name : String) return Int;
 
-   function Track_Remove_Name (Track : access Track; Name : String) return Int;
+   function Track_Remove_Name (T : access Track; Name : String) return Int;
 
-   function Track_Set_Recursive (Track : access Track; B : Int) return Int;
+   function Track_Set_Recursive (T : access Track; B : Int) return Int;
 
-   function Track_Get_Recursive (Track : access Track) return Int;
+   function Track_Get_Recursive (T : access Track) return Int;
 
-   function Track_Count (Track : access Track) return Unsigned;
+   function Track_Count (T : access Track) return Unsigned;
 
-   function Track_Count_Sender (Track : access Track; M : access Message) return Int;
+   function Track_Count_Sender (T : access Track; M : access Message'Class) return Int;
 
-   function Track_Count_Name (Track : access Track; Name : String) return Int;
+   function Track_Count_Name (T : access Track; Name : String) return Int;
 
-   function Track_Contains (Track : access Track; Name : String) return String;
+   function Track_Contains (T : access Track; Name : String) return String;
 
-   function Track_First (Track : access Track) return String;
+   function Track_First (T : access Track) return String;
 
-   function Track_Next (Track : access Track) return String;
+   function Track_Next (T : access Track) return String;
 
    function Track_Set_Destroy_Callback (S : access Track; Callback : Destroy_T) return Int;
 
    function Track_Get_Destroy_Callback (S : access Track; Ret : System.Address) return Int;
 
-   -- Define helpers so that __attribute__((cleanup(sd_bus_unrefp))) and similar may be used.
+   --  Define helpers so that __attribute__((cleanup(sd_bus_unrefp))) and similar may be used.
    procedure Unrefp (P : System.Address);
 
    procedure Close_Unrefp (P : System.Address);
@@ -1232,24 +1210,28 @@ package Systemd.Bus is
    procedure Track_Unrefp (P : System.Address);
 
 private
-   type Sd_Bus is new Ada.Finalization.Limited_Controlled with record
-      impl : Boolean;
+   type Error is new Integer;
+
+   type Error_Map is new Integer;
+
+   type Sd_Bus is new Ada.Finalization.Controlled with record
+      Impl : Boolean;
    end record;
 
-   type Message is new Ada.Finalization.Limited_Controlled with record
-      impl : Boolean;
+   type Message is new Ada.Finalization.Controlled with record
+      Impl : Boolean;
    end record;
 
-   type Slot is new Ada.Finalization.Limited_Controlled with record
-      impl : Boolean;
+   type Slot is new Ada.Finalization.Controlled with record
+      Impl : Boolean;
    end record;
 
-   type Creds is new Ada.Finalization.Limited_Controlled with record
-      impl : Boolean;
+   type Creds is new Ada.Finalization.Controlled with record
+      Impl : Boolean;
    end record;
 
-   type Track is new Ada.Finalization.Limited_Controlled with record
-      impl : Boolean;
+   type Track is new Ada.Finalization.Controlled with record
+      Impl : Boolean;
    end record;
 
 end Systemd.Bus;

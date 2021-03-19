@@ -6,7 +6,8 @@ with Systemd.Id128;
 private with Systemd.Low_Level.Systemd_Sd_Journal_H;
 package Systemd.Journals is
 
-   function Print (Priority : Int; Format : String  -- , ...
+   function Print (Priority : Int;
+                   Format   : String  -- , ...
                   ) return Int;
 
    function Printv

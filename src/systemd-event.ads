@@ -78,17 +78,13 @@ package Systemd.event is
    with Convention => C;  -- /usr/include/systemd/sd-event.h:79
 
 
-   function sd_event_default (e : System.Address) return int  -- /usr/include/systemd/sd-event.h:82
-   ;
+   function sd_event_default (e : System.Address) return int;
 
-   function sd_event_new (e : System.Address) return int  -- /usr/include/systemd/sd-event.h:84
-   ;
+   function sd_event_new (e : System.Address) return int;
 
-   function sd_event_ref (e : access sd_event) return access sd_event  -- /usr/include/systemd/sd-event.h:85
-   ;
+   function sd_event_ref (e : access sd_event) return access sd_event;
 
-   function sd_event_unref (e : access sd_event) return access sd_event  -- /usr/include/systemd/sd-event.h:86
-   ;
+   function sd_event_unref (e : access sd_event) return access sd_event;
 
    function sd_event_add_io
      (e : access sd_event;
@@ -96,8 +92,7 @@ package Systemd.event is
       fd : int;
       events : unsigned;
       callback : sd_event_io_handler_t;
-      userdata : System.Address) return int  -- /usr/include/systemd/sd-event.h:88
-   ;
+      userdata : System.Address) return int;
 
    function sd_event_add_time
      (e : access sd_event;
