@@ -228,7 +228,7 @@ package Systemd.Daemon is
                     Unset_Environment : Boolean := False) return Int;
 
    procedure Notify (State             : String;
-                    Unset_Environment : Boolean := False);
+                     Unset_Environment : Boolean := False);
 
    function Pid_Notify
      (Pid               : GNAT.OS_Lib.Process_Id;
