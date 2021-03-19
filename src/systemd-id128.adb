@@ -106,6 +106,7 @@ package body Systemd.Id128 is
    begin
       return A.Bytes = B.Bytes;
    end "=";
+
    function Hash (Item : Id128_T) return Ada.Containers.Hash_Type is
       S : String (1 .. Item'Size / Character'Size) with
         Import => True,
