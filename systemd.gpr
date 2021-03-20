@@ -1,5 +1,6 @@
 with "libsystemd.gpr";
 project Systemd is
+
    for Create_Missing_Dirs use "True";
    for Source_Dirs use ("src/**", ".", "sed");
    for Object_Dir use ".obj";
@@ -20,7 +21,13 @@ project Systemd is
       for Driver ("MarkDown") use "";
       for Driver ("Makefile") use "";
       for Driver ("Sed") use "";
-      for Switches ("Ada") use ("-gnat2020", "-g", "-gnatf", "-fcallgraph-info=su,da", "-fdata-sections", "-ffunction-sections", "-gnatwa", "-gnatyBabcdfhikln");
+
+      for Switches ("Ada") use ("-g",
+                                "-gnatf",
+                                "-fdata-sections",
+                                "-ffunction-sections",
+                                "-gnatwa",
+                                "-gnatyBabcdfhikln");
    end Compiler;
 
    package Naming is

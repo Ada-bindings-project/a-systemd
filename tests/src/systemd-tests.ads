@@ -1,2 +1,3 @@
 private package Systemd.Tests is
-end;
+
+end Systemd.Tests;
