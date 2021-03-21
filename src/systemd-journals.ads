@@ -4,63 +4,116 @@ with Interfaces.C; use Interfaces.C;
 with System;
 
 with Systemd.Id128;
-
+with Gnat.Source_Info;
 private with Systemd.Low_Level.Systemd_Sd_Journal_H;
 
 package Systemd.Journals is
 
-   function Print (Priority : Int;
-                   Format   : String  -- , ...
-                  ) return Int;
+   type Priority_Type is (LOG_EMERG,    --  system is unusable
+                          LOG_ALERT,    --  action must be taken immediately
+                          LOG_CRIT,     --  critical conditions
+                          LOG_ERR,      --  error conditions
+                          LOG_WARNING,  --  warning conditions
+                          LOG_NOTICE,   --  normal but significant condition
+                          LOG_INFO,     --  informational
+                          LOG_DEBUG);   --  debug-level messages'
+   -- maps to priorities in syslog.h
+
+   function Print (Priority : Priority_Type;
+                   Format   : String ) return Int;
+
+   procedure Print (Priority : Priority_Type;
+                    Format   : String );
 
    function Printv
-     (Priority : Int;
+     (Priority : Priority_Type;
       Format   : String;
       Ap       : access System.Address) return Int;
+   procedure Printv
+     (Priority : Priority_Type;
+      Format   : String;
+      Ap       : access System.Address);
 
-   function Send (Format : String  -- , ...
-                 ) return Int;
+   function Send (Format : String) return Int;
+   procedure Send (Format : String);
 
    function Sendv (Iov : access constant System.Address; N : Int) return Int;
 
    function Perror (Message : String) return Int;
+   procedure Perror (Message : String);
 
-   --  Used by the macros below. You probably don't want to call this directly.
+
    function Print_With_Location
-     (Priority : Int;
-      File     : String;
-      Line     : String;
-      Func     : String;
-      Format   : String  -- , ...
-     ) return Int;
+     (Priority : Priority_Type;
+      File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String) return Int;
+   procedure Print_With_Location
+     (Priority : Priority_Type;
+      File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String);
 
    function Printv_With_Location
-     (Priority : Int;
-      File     : String;
-      Line     : String;
-      Func     : String;
+     (Priority : Priority_Type;
+      File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String := Gnat.Source_Info.Enclosing_Entity;
       Format   : String;
       Ap       : access System.Address) return Int;
+   procedure Printv_With_Location
+     (Priority : Priority_Type;
+      File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String;
+      Ap       : access System.Address);
 
    function Send_With_Location
-     (File   : String;
-      Line   : String;
-      Func   : String;
-      Format : String  -- , ...
-     ) return Int;
+     (File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String ) return Int;
+   procedure Send_With_Location
+     (File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String);
 
    function Sendv_With_Location
-     (File : String;
-      Line : String;
-      Func : String;
-      Iov  : access constant System.Address;
-      N    : Int) return Int;
+     (File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Iov      : access constant System.Address;
+      N        : Int) return Int;
+   procedure Sendv_With_Location
+     (File     : String  := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Iov      : access constant System.Address;
+      N        : Int);
 
    function Perror_With_Location
-     (File    : String;
-      Line    : String;
-      Func    : String;
-      Message : String) return Int;
+     (File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String := Gnat.Source_Info.Enclosing_Entity;
+      Message  : String) return Int;
+   procedure Perror_With_Location
+     (File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String := Gnat.Source_Info.Enclosing_Entity;
+      Message  : String);
+
+   --  #########################################################################
+   --  Browse journal stream
+private
+
+   type Sd_Journal_Access is access all Systemd.Low_Level.Systemd_Sd_Journal_H.Sd_Journal with Storage_Size => 0;
+   type Sd_Journal is tagged record
+      Impl : aliased Sd_Journal_Access;
+   end record;
 
    --  implicitly add code location to messages sent, if this is enabled
    function Stream_Fd
@@ -68,8 +121,6 @@ package Systemd.Journals is
       Priority     : Int;
       Level_Prefix : Int) return Int;
 
-   --  Browse journal stream
-   type Sd_Journal is tagged private;
 
    --  Open flags
    --  deprecated name
@@ -78,24 +129,24 @@ package Systemd.Journals is
 
    procedure Open_Directory
      (Self   : in out Sd_Journal;
-      Path  : String;
-      Flags : Int);
+      Path   : String;
+      Flags  : Int);
 
    procedure Open_Directory_Fd
      (Self   : in out Sd_Journal;
-      Fd    : Int;
-      Flags : Int);
+      Fd     : Int;
+      Flags  : Int);
 
    procedure Open_Files
      (Self   : in out Sd_Journal;
-      Paths : System.Address;
-      Flags : Int);
+      Paths  : System.Address;
+      Flags  : Int);
 
    procedure Open_Files_Fd
      (Self   : in out Sd_Journal;
-      Fds   : access Int;
-      N_Fds : Unsigned;
-      Flags : Int);
+      Fds    : access Int;
+      N_Fds  : Unsigned;
+      Flags  : Int);
 
 
 
@@ -208,10 +259,6 @@ package Systemd.Journals is
    function Has_Persistent_Files (J : Sd_Journal) return Boolean;
 
    procedure Closep (P : in out Sd_Journal);
-private
-   type Sd_Journal_Access is access all Systemd.Low_Level.Systemd_Sd_Journal_H.Sd_Journal with Storage_Size => 0;
-   type Sd_Journal is tagged record
-      Impl : aliased Sd_Journal_Access;
-   end record;
+
 
 end Systemd.Journals;

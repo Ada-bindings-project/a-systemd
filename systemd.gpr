@@ -30,6 +30,13 @@ project Systemd is
                                 "-gnatyBabcdfhikln");
    end Compiler;
 
+   package Binder is
+      for Switches ("Ada") use ("-E");
+   end Binder;
+
+   package Linker is
+   end Linker;
+
    package Naming is
       for Body_Suffix ("makefile") use ".mk";
       for Body_Suffix ("MarkDown") use ".md";

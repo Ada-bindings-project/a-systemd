@@ -1,14 +1,26 @@
 pragma Ada_2012;
+with Interfaces.C.Strings;
 package body Systemd.Journals is
-   pragma Warnings (Off);
+   use Systemd.Low_Level.Systemd_Sd_Journal_H;
    -----------
    -- Print --
    -----------
 
-   function Print (Priority : Int; Format : String) return Int is
+   function Print (Priority : Priority_Type; Format : String) return Int is
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
    begin
-      pragma Compile_Time_Warning (Standard.True, "Print unimplemented");
-      return raise Program_Error with "Unimplemented function Print";
+      return Ret : constant Int := Sd_Journal_Print (Priority_Type'Pos (Priority), C_Format) do
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Print;
+
+   -----------
+   -- Print --
+   -----------
+
+   procedure Print (Priority : Priority_Type; Format : String) is
+   begin
+      Retcode_2_Exception (Print (Priority, Format));
    end Print;
 
    ------------
@@ -16,11 +28,29 @@ package body Systemd.Journals is
    ------------
 
    function Printv
-     (Priority : Int; Format : String; Ap : access System.Address) return Int
+     (Priority : Priority_Type;
+      Format   : String;
+      Ap       : access System.Address)
+      return Int
+   is
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
+   begin
+      return Ret : constant Int := Sd_Journal_Printv (Priority =>  Priority_Type'Pos (Priority),
+                                                      Format   =>  C_Format,
+                                                      Ap       => Ap) do
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Printv;
+
+   ------------
+   -- Printv --
+   ------------
+
+   procedure Printv
+     (Priority : Priority_Type; Format : String; Ap : access System.Address)
    is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Printv unimplemented");
-      return raise Program_Error with "Unimplemented function Printv";
+      Retcode_2_Exception (Printv (Priority => Priority, Format => Format, Ap => Ap));
    end Printv;
 
    ----------
@@ -28,9 +58,20 @@ package body Systemd.Journals is
    ----------
 
    function Send (Format : String) return Int is
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
    begin
-      pragma Compile_Time_Warning (Standard.True, "Send unimplemented");
-      return raise Program_Error with "Unimplemented function Send";
+      return Ret : constant Int := Sd_Journal_Send (  Format   =>  C_Format) do
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Send;
+
+   ----------
+   -- Send --
+   ----------
+
+   procedure Send (Format : String) is
+   begin
+      Retcode_2_Exception (Send (Format => Format));
    end Send;
 
    -----------
@@ -39,8 +80,7 @@ package body Systemd.Journals is
 
    function Sendv (Iov : access constant System.Address; N : Int) return Int is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Sendv unimplemented");
-      return raise Program_Error with "Unimplemented function Sendv";
+      return Sd_Journal_Sendv (Iov => Iov, N => N);
    end Sendv;
 
    ------------
@@ -48,24 +88,69 @@ package body Systemd.Journals is
    ------------
 
    function Perror (Message : String) return Int is
+      C_Message : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Message);
    begin
-      pragma Compile_Time_Warning (Standard.True, "Perror unimplemented");
-      return raise Program_Error with "Unimplemented function Perror";
+      return Ret : constant Int := Sd_Journal_Perror (Message   => C_Message) do
+         Interfaces.C.Strings.Free (C_Message);
+      end return;
+   end Perror;
+
+   ------------
+   -- Perror --
+   ------------
+
+   procedure Perror (Message : String) is
+   begin
+      Retcode_2_Exception (Perror (Message => Message));
    end Perror;
 
    -------------------------
    -- Print_With_Location --
    -------------------------
+   function Image ( Item : Natural) return String is
+      Ret : constant String := Item'Img;
+   begin
+      return Ret (Ret'First + 1 .. Ret'Last);
+   end;
 
    function Print_With_Location
-     (Priority : Int; File : String; Line : String; Func : String;
-      Format   : String) return Int
+     (Priority : Priority_Type;
+      File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String)
+      return Int
+   is
+      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
+   begin
+      return Ret : constant Int := Sd_Journal_Print_With_Location (Priority => Priority_Type'Pos (Priority),
+                                                                   File     => C_File,
+                                                                   Line     => C_Line,
+                                                                   Func     => C_Func,
+                                                                   Format   => C_Format) do
+         Interfaces.C.Strings.Free (C_File);
+         Interfaces.C.Strings.Free (C_Line);
+         Interfaces.C.Strings.Free (C_Func);
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Print_With_Location;
+
+   -------------------------
+   -- Print_With_Location --
+   -------------------------
+
+   procedure Print_With_Location
+     (Priority : Priority_Type;
+      File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String)
    is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Print_With_Location unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Print_With_Location";
+      Retcode_2_Exception (Print_With_Location (Priority => Priority, File => File, Line => Line, Func => Func, Format => Format));
    end Print_With_Location;
 
    --------------------------
@@ -73,14 +158,43 @@ package body Systemd.Journals is
    --------------------------
 
    function Printv_With_Location
-     (Priority : Int; File : String; Line : String; Func : String;
-      Format   : String; Ap : access System.Address) return Int
+     (Priority : Priority_Type;
+      File     : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format   : String;
+      Ap       : access System.Address) return Int
+   is
+      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
+   begin
+      return Ret : constant Int := Sd_Journal_Printv_With_Location (Priority => Priority_Type'Pos (Priority),
+                                                                    File     => C_File,
+                                                                    Line     => C_Line,
+                                                                    Func     => C_Func,
+                                                                    Format   => C_Format,
+                                                                    Ap       => Ap) do
+         Interfaces.C.Strings.Free (C_File);
+         Interfaces.C.Strings.Free (C_Line);
+         Interfaces.C.Strings.Free (C_Func);
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Printv_With_Location;
+
+   --------------------------
+   -- Printv_With_Location --
+   --------------------------
+
+   procedure Printv_With_Location
+     (Priority : Priority_Type; File : String := Gnat.Source_Info.File;
+      Line     : Natural := Gnat.Source_Info.Line;
+      Func     : String  := Gnat.Source_Info.Enclosing_Entity; Format : String;
+      Ap       : access System.Address)
    is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Printv_With_Location unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Printv_With_Location";
+      Retcode_2_Exception (Printv_With_Location (Priority => Priority, File => File, Line => Line, Func => Func, Format => Format, Ap => Ap));
    end Printv_With_Location;
 
    ------------------------
@@ -88,13 +202,40 @@ package body Systemd.Journals is
    ------------------------
 
    function Send_With_Location
-     (File : String; Line : String; Func : String; Format : String) return Int
+     (File   : String  := Gnat.Source_Info.File;
+      Line   : Natural := Gnat.Source_Info.Line;
+      Func   : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format : String)
+      return Int
+   is
+      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
+      C_Format : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Format);
+   begin
+      return Ret : constant Int := Sd_Journal_Send_With_Location (File     => C_File,
+                                                                  Line     => C_Line,
+                                                                  Func     => C_Func,
+                                                                  Format   => C_Format) do
+         Interfaces.C.Strings.Free (C_File);
+         Interfaces.C.Strings.Free (C_Line);
+         Interfaces.C.Strings.Free (C_Func);
+         Interfaces.C.Strings.Free (C_Format);
+      end return;
+   end Send_With_Location;
+
+   ------------------------
+   -- Send_With_Location --
+   ------------------------
+
+   procedure Send_With_Location
+     (File   : String  := Gnat.Source_Info.File;
+      Line   : Natural := Gnat.Source_Info.Line;
+      Func   : String  := Gnat.Source_Info.Enclosing_Entity;
+      Format : String)
    is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Send_With_Location unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Send_With_Location";
+      Retcode_2_Exception (Send_With_Location (File => File, Line => Line, Func => Func, Format => Format));
    end Send_With_Location;
 
    -------------------------
@@ -102,14 +243,38 @@ package body Systemd.Journals is
    -------------------------
 
    function Sendv_With_Location
-     (File : String; Line : String; Func : String;
+     (File : String  := Gnat.Source_Info.File;
+      Line : Natural := Gnat.Source_Info.Line;
+      Func : String  := Gnat.Source_Info.Enclosing_Entity;
       Iov  : access constant System.Address; N : Int) return Int
    is
+      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Sendv_With_Location unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Sendv_With_Location";
+      return Ret : constant Int := Sd_Journal_Sendv_With_Location (File      => C_File,
+                                                                   Line      => C_Line,
+                                                                   Func      => C_Func,
+                                                                   Iov       => Iov,
+                                                                   N         => N) do
+         Interfaces.C.Strings.Free (C_File);
+         Interfaces.C.Strings.Free (C_Line);
+         Interfaces.C.Strings.Free (C_Func);
+      end return;
+   end Sendv_With_Location;
+
+   -------------------------
+   -- Sendv_With_Location --
+   -------------------------
+
+   procedure Sendv_With_Location
+     (File : String  := Gnat.Source_Info.File;
+      Line : Natural := Gnat.Source_Info.Line;
+      Func : String  := Gnat.Source_Info.Enclosing_Entity;
+      Iov  : access constant System.Address; N : Int)
+   is
+   begin
+      Retcode_2_Exception (Sendv_With_Location (File => File, Line => Line, Func => Func, Iov => Iov, N => N));
    end Sendv_With_Location;
 
    --------------------------
@@ -117,14 +282,45 @@ package body Systemd.Journals is
    --------------------------
 
    function Perror_With_Location
-     (File : String; Line : String; Func : String; Message : String) return Int
+     (File    : String  := Gnat.Source_Info.File;
+      Line    : Natural := Gnat.Source_Info.Line;
+      Func    : String  := Gnat.Source_Info.Enclosing_Entity;
+      Message : String)
+      return Int
+   is
+      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
+      C_Message   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Message);
+   begin
+      return Ret : constant Int := Sd_Journal_Perror_With_Location (File      => C_File,
+                                                                    Line      => C_Line,
+                                                                    Func      => C_Func,
+                                                                    Message   => C_Message) do
+         Interfaces.C.Strings.Free (C_File);
+         Interfaces.C.Strings.Free (C_Line);
+         Interfaces.C.Strings.Free (C_Func);
+         Interfaces.C.Strings.Free (C_Message);
+      end return;
+
+   end Perror_With_Location;
+
+   --------------------------
+   -- Perror_With_Location --
+   --------------------------
+
+   procedure Perror_With_Location
+     (File    : String  := Gnat.Source_Info.File;
+      Line    : Natural := Gnat.Source_Info.Line;
+      Func    : String  := Gnat.Source_Info.Enclosing_Entity;
+      Message : String)
    is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Perror_With_Location unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Perror_With_Location";
+      Retcode_2_Exception (Perror_With_Location (File, Line, Func, Message));
    end Perror_With_Location;
+
+   --  ########################################################################
+   --  ########################################################################
 
    ---------------
    -- Stream_Fd --
@@ -266,7 +462,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Realtime_Usec unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Realtime_Usec";
+      raise Program_Error with "Unimplemented function Get_Realtime_Usec";
    end Get_Realtime_Usec;
 
    ------------------------
@@ -281,7 +477,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Monotonic_Usec unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Monotonic_Usec";
+      raise Program_Error with "Unimplemented function Get_Monotonic_Usec";
    end Get_Monotonic_Usec;
 
    ------------------------
@@ -306,7 +502,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Data_Threshold unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Data_Threshold";
+      raise Program_Error with "Unimplemented function Get_Data_Threshold";
    end Get_Data_Threshold;
 
    --------------
@@ -482,8 +678,8 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Cutoff_Realtime_Usec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Cutoff_Realtime_Usec";
+      raise Program_Error
+        with "Unimplemented function Get_Cutoff_Realtime_Usec";
    end Get_Cutoff_Realtime_Usec;
 
    -------------------------------
@@ -498,8 +694,8 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Cutoff_Monotonic_Usec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Cutoff_Monotonic_Usec";
+      raise Program_Error
+        with "Unimplemented function Get_Cutoff_Monotonic_Usec";
    end Get_Cutoff_Monotonic_Usec;
 
    ---------------
@@ -537,7 +733,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Enumerate_Unique unimplemented");
       return
-        raise Program_Error with "Unimplemented function Enumerate_Unique";
+      raise Program_Error with "Unimplemented function Enumerate_Unique";
    end Enumerate_Unique;
 
    --------------------
@@ -562,7 +758,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Enumerate_Fields unimplemented");
       return
-        raise Program_Error with "Unimplemented function Enumerate_Fields";
+      raise Program_Error with "Unimplemented function Enumerate_Fields";
    end Enumerate_Fields;
 
    --------------------
@@ -600,9 +796,7 @@ package body Systemd.Journals is
    -- Get_Timeout --
    -----------------
 
-   function Get_Timeout
-     (J : in out Sd_Journal) return Duration
-   is
+   function Get_Timeout (J : in out Sd_Journal) return Duration is
    begin
       pragma Compile_Time_Warning (Standard.True, "Get_Timeout unimplemented");
       return raise Program_Error with "Unimplemented function Get_Timeout";
@@ -622,11 +816,10 @@ package body Systemd.Journals is
    -- Wait --
    ----------
 
-   procedure Wait (J : in out Sd_Journal; Timeout : Duration)
-   is
+   procedure Wait (J : in out Sd_Journal; Timeout : Duration) is
    begin
       pragma Compile_Time_Warning (Standard.True, "Wait unimplemented");
-      raise Program_Error with "Unimplemented function Wait";
+      raise Program_Error with "Unimplemented procedure Wait";
    end Wait;
 
    -----------------
@@ -643,9 +836,7 @@ package body Systemd.Journals is
    -- Get_Catalog --
    -----------------
 
-   function Get_Catalog
-     (J : in out Sd_Journal) return String
-   is
+   function Get_Catalog (J : in out Sd_Journal) return String is
    begin
       pragma Compile_Time_Warning (Standard.True, "Get_Catalog unimplemented");
       return raise Program_Error with "Unimplemented function Get_Catalog";
@@ -662,8 +853,8 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Catalog_For_Message_Id unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Catalog_For_Message_Id";
+      raise Program_Error
+        with "Unimplemented function Get_Catalog_For_Message_Id";
    end Get_Catalog_For_Message_Id;
 
    -----------------------
@@ -675,7 +866,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Has_Runtime_Files unimplemented");
       return
-        raise Program_Error with "Unimplemented function Has_Runtime_Files";
+      raise Program_Error with "Unimplemented function Has_Runtime_Files";
    end Has_Runtime_Files;
 
    --------------------------
@@ -687,7 +878,7 @@ package body Systemd.Journals is
       pragma Compile_Time_Warning
         (Standard.True, "Has_Persistent_Files unimplemented");
       return
-        raise Program_Error with "Unimplemented function Has_Persistent_Files";
+      raise Program_Error with "Unimplemented function Has_Persistent_Files";
    end Has_Persistent_Files;
 
    ------------

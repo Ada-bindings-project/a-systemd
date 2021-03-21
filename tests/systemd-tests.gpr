@@ -1,10 +1,18 @@
 with "../systemd.gpr";
 
 project Systemd.Tests is
+
    for Create_Missing_Dirs use "True";
    for Source_Dirs use ("src/**");
    for Object_Dir use ".obj";
    for Exec_Dir use "bin";
    for Main use ("systemd-tests-main.adb");
 
+   package Builder renames Systemd.Builder;
+
+   package Compiler renames Systemd.Compiler;
+   package Binder renames Systemd.Binder;
+   package Linker renames Systemd.Linker;
+
 end Systemd.Tests;
+

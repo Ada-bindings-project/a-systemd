@@ -3,11 +3,14 @@ pragma Ada_2012;
 with Interfaces.C; use Interfaces.C;
 with Interfaces.C.Strings;
 with System;
-
+with GNAT.OS_Lib;
 with Systemd.Event;
 with Systemd.Id128;
+
 private with Ada.Finalization;
 limited with Systemd.Bus.Vtable;
+private with Systemd.Low_Level.Systemd_Sd_Bus_H;
+
 package Systemd.Bus is
 
    type Uid_T is new Integer;
@@ -106,36 +109,37 @@ package Systemd.Bus is
    type Track_Handler_T is access function (Arg1 : access Track; Arg2 : System.Address) return Int
      with Convention => C;
 
-   function Default (Ret : System.Address) return Int;
+   procedure Default (Bus : Sd_Bus);
 
-   function Default_User (Ret : System.Address) return Int;
+   procedure Default_User (Bus : Sd_Bus);
 
-   function Default_System (Ret : System.Address) return Int;
+   procedure Default_System (Bus : Sd_Bus);
 
-   function Open (Ret : System.Address) return Int;
+   procedure Open (Bus : Sd_Bus);
 
-   function Open_With_Description (Ret : System.Address; Description : String) return Int;
+   procedure Open_With_Description (Bus : in out Sd_Bus; Description : String);
 
-   function Open_User (Ret : System.Address) return Int;
+   procedure Open_User (Bus : in out Sd_Bus);
 
-   function Open_User_With_Description (Ret : System.Address; Description : String) return Int;
+   procedure Open_User_With_Description (Bus : in out Sd_Bus; Description : String);
 
-   function Open_System (Ret : System.Address) return Int;
+   procedure Open_System (Bus : in out Sd_Bus);
 
-   function Open_System_With_Description (Ret : System.Address; Description : String) return Int;
+   procedure Open_System_With_Description (Bus : in out Sd_Bus; Description : String);
 
-   function Open_System_Remote (Ret : System.Address; Host : String) return Int;
+   procedure Open_System_Remote (Bus : in out Sd_Bus; Host : String);
 
-   function Open_System_Machine (Ret : System.Address; Machine : String) return Int;
+   procedure Open_System_Machine (Bus : in out Sd_Bus; Machine : String);
 
-   function New_Bus (Ret : System.Address) return Int;
+   procedure New_Bus (Bus : in out Sd_Bus);
 
-   function Set_Address (Bus : access Sd_Bus; Address : String) return Int;
+   procedure Set_Address (Bus :  Sd_Bus; Address : String);
 
-   function Set_Fd
-     (Bus       : access Sd_Bus;
-      Input_Fd  : Int;
-      Output_Fd : Int) return Int;
+
+   procedure Set_Fd
+     (Bus       : in out Sd_Bus;
+      Input_Fd  : GNAT.OS_Lib.File_Descriptor;
+      Output_Fd : GNAT.OS_Lib.File_Descriptor);
 
    function Set_Exec
      (Bus  : access Sd_Bus;
@@ -241,18 +245,18 @@ package Systemd.Bus is
 
    function Send
      (Bus    : access Sd_Bus;
-      M      : access Message'class;
+      M      : access Message'Class;
       Cookie : access Unsigned_Long) return Int ;
 
    function Send_To
      (Bus         : access Sd_Bus;
-      M           : access Message'class;
+      M           : access Message'Class;
       Destination : String;
       Cookie      : access Unsigned_Long) return Int;
 
    function Call
      (Bus       : access Sd_Bus;
-      M         : access Message'class;
+      M         : access Message'Class;
       Usec      : Unsigned_Long;
       Ret_Error : access Error;
       Reply     : System.Address) return Int;
@@ -260,7 +264,7 @@ package Systemd.Bus is
    function Call_Async
      (Bus      : access Sd_Bus;
       Slot     : System.Address;
-      M        : access Message'class;
+      M        : access Message'Class;
       Callback : Message_Handler_T;
       Userdata : System.Address;
       Usec     : Unsigned_Long) return Int;
@@ -282,9 +286,9 @@ package Systemd.Bus is
 
    function Flush (Bus : access Sd_Bus) return Int;
 
-   function Get_Current_Slot (Bus : access Sd_Bus) return access Slot'class;
+   function Get_Current_Slot (Bus : access Sd_Bus) return access Slot'Class;
 
-   function Get_Current_Message (Bus : access Sd_Bus) return access Message'class;
+   function Get_Current_Message (Bus : access Sd_Bus) return access Message'Class;
 
    function Get_Current_Handler (Bus : access Sd_Bus) return Message_Handler_T;
 
@@ -372,11 +376,11 @@ package Systemd.Bus is
       Path : String) return Int;
 
    --  Slot object
-   function Slot_Ref (S : access Slot) return access Slot'class;
+   function Slot_Ref (S : access Slot) return access Slot'Class;
 
-   function Slot_Unref (S : access Slot) return access Slot'class;
+   function Slot_Unref (S : access Slot) return access Slot'Class;
 
-   function Slot_Get_Bus (s : access Slot) return access Sd_Bus'class;
+   function Slot_Get_Bus (S : access Slot) return access Sd_Bus'Class;
 
    function Slot_Get_Userdata (S : access Slot) return System.Address;
 
@@ -394,7 +398,7 @@ package Systemd.Bus is
 
    function Slot_Get_Destroy_Callback (S : access Slot; Callback : System.Address) return Int;
 
-   function Slot_Get_Current_Message (S : access Slot) return access Message'class;
+   function Slot_Get_Current_Message (S : access Slot) return access Message'Class;
 
    function Slot_Get_Current_Handler (S : access Slot) return Message_Handler_T;
 
@@ -442,10 +446,10 @@ package Systemd.Bus is
    ;
 
    function Message_New_Method_Errno
-     (Call  : access Message;
-      M     : System.Address;
+     (Call      : access Message;
+      M         : System.Address;
       ErrorCode : Int;
-      E     : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:251
+      E         : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:251
    ;
 
    function Message_New_Method_Errnof
@@ -851,9 +855,9 @@ package Systemd.Bus is
    ;
 
    function Reply_Method_Errno
-     (Call  : access Message;
+     (Call      : access Message;
       ErrorCode : Int;
-      E     : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:350
+      E         : access constant Error) return Int  -- /usr/include/systemd/sd-bus.h:350
    ;
 
    function Reply_Method_Errnof
@@ -1156,21 +1160,21 @@ package Systemd.Bus is
       Handler  : Track_Handler_T;
       Userdata : System.Address) return Int;
 
-   function Track_Ref (t : access Track) return access Track'Class;
+   function Track_Ref (T : access Track) return access Track'Class;
 
-   function Track_Unref (t : access Track) return access Track'Class;
+   function Track_Unref (T : access Track) return access Track'Class;
 
-   function Track_Get_Bus (t : access Track) return access Sd_Bus'Class;
+   function Track_Get_Bus (T : access Track) return access Sd_Bus'Class;
 
-   function Track_Get_Userdata (t : access Track) return System.Address;
+   function Track_Get_Userdata (T : access Track) return System.Address;
 
-   function Track_Set_Userdata (t : access Track; Userdata : System.Address) return System.Address;
+   function Track_Set_Userdata (T : access Track; Userdata : System.Address) return System.Address;
 
-   function Track_Add_Sender (t : access Track; M : access Message'Class) return Int;
+   function Track_Add_Sender (T : access Track; M : access Message'Class) return Int;
 
-   function Track_Remove_Sender (t : access Track; M : access Message'Class) return Int;
+   function Track_Remove_Sender (T : access Track; M : access Message'Class) return Int;
 
-   function Track_Add_Name (t : access Track; Name : String) return Int;
+   function Track_Add_Name (T : access Track; Name : String) return Int;
 
    function Track_Remove_Name (T : access Track; Name : String) return Int;
 
@@ -1213,9 +1217,10 @@ private
    type Error is new Integer;
 
    type Error_Map is new Integer;
+   type Sd_Bus_Access is access all Systemd.Low_Level.Systemd_Sd_Bus_H.Sd_Bus with Storage_Size => 0;
 
    type Sd_Bus is new Ada.Finalization.Controlled with record
-      Impl : Boolean;
+      Impl : aliased Sd_Bus_Access;
    end record;
 
    type Message is new Ada.Finalization.Controlled with record

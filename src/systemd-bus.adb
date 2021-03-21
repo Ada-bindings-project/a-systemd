@@ -1,170 +1,169 @@
 pragma Ada_2012;
+with Ada.Unchecked_Conversion;
 package body Systemd.Bus is
-
+   use Systemd.Low_Level;
    -------------
    -- Default --
    -------------
 
-   function Default (Ret : System.Address) return Int is
+   procedure Default (Bus : Sd_Bus) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Default unimplemented");
-      return raise Program_Error with "Unimplemented function Default";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Default (Bus.Impl'Address));
    end Default;
 
    ------------------
    -- Default_User --
    ------------------
 
-   function Default_User (Ret : System.Address) return Int is
+   procedure Default_User (Bus : Sd_Bus) is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Default_User unimplemented");
-      return raise Program_Error with "Unimplemented function Default_User";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Default_User (Bus.Impl'Address));
    end Default_User;
 
    --------------------
    -- Default_System --
    --------------------
 
-   function Default_System (Ret : System.Address) return Int is
+   procedure Default_System (Bus : Sd_Bus) is
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Default_System unimplemented");
-      return raise Program_Error with "Unimplemented function Default_System";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Default_System (Bus.Impl'Address));
    end Default_System;
 
    ----------
    -- Open --
    ----------
 
-   function Open (Ret : System.Address) return Int is
+   procedure Open (Bus : Sd_Bus) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Open unimplemented");
-      return raise Program_Error with "Unimplemented function Open";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Open (Bus.Impl'Address));
    end Open;
 
    ---------------------------
    -- Open_With_Description --
    ---------------------------
 
-   function Open_With_Description
-     (Ret : System.Address; Description : String) return Int
+   procedure Open_With_Description (Bus : in out Sd_Bus; Description : String)
    is
+      Ret           : Int;
+      C_Description : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Description);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Open_With_Description unimplemented");
-      return
-        raise Program_Error
-          with "Unimplemented function Open_With_Description";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Open (Bus.Impl'Address);
+      Interfaces.C.Strings.Free (C_Description);
+      Retcode_2_Exception (Ret);
    end Open_With_Description;
 
    ---------------
    -- Open_User --
    ---------------
 
-   function Open_User (Ret : System.Address) return Int is
+   procedure Open_User (Bus : in out Sd_Bus) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Open_User unimplemented");
-      return raise Program_Error with "Unimplemented function Open_User";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Open_User (Bus.Impl'Address));
    end Open_User;
 
    --------------------------------
    -- Open_User_With_Description --
    --------------------------------
 
-   function Open_User_With_Description
-     (Ret : System.Address; Description : String) return Int
+   procedure Open_User_With_Description
+     (Bus : in out Sd_Bus; Description : String)
    is
+      Ret           : Int;
+      C_Description : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Description);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Open_User_With_Description unimplemented");
-      return
-        raise Program_Error
-          with "Unimplemented function Open_User_With_Description";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Open_User_With_Description (Bus.Impl'Address, Description => C_Description);
+      Interfaces.C.Strings.Free (C_Description);
+      Retcode_2_Exception (Ret);
    end Open_User_With_Description;
 
    -----------------
    -- Open_System --
    -----------------
 
-   function Open_System (Ret : System.Address) return Int is
+   procedure Open_System (Bus : in out Sd_Bus) is
    begin
-      pragma Compile_Time_Warning (Standard.True, "Open_System unimplemented");
-      return raise Program_Error with "Unimplemented function Open_System";
+      Retcode_2_Exception (Systemd_Sd_Bus_H.Sd_Bus_Open_System (Bus.Impl'Address));
    end Open_System;
 
    ----------------------------------
    -- Open_System_With_Description --
    ----------------------------------
 
-   function Open_System_With_Description
-     (Ret : System.Address; Description : String) return Int
+   procedure Open_System_With_Description
+     (Bus : in out Sd_Bus; Description : String)
    is
+      Ret           : Int;
+      C_Description : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Description);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Open_System_With_Description unimplemented");
-      return
-        raise Program_Error
-          with "Unimplemented function Open_System_With_Description";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Open_System_With_Description (Bus.Impl'Address, Description => C_Description);
+      Interfaces.C.Strings.Free (C_Description);
+      Retcode_2_Exception (Ret);
    end Open_System_With_Description;
 
    ------------------------
    -- Open_System_Remote --
    ------------------------
 
-   function Open_System_Remote (Ret : System.Address; Host : String) return Int
-   is
+   procedure Open_System_Remote (Bus : in out Sd_Bus; Host : String) is
+      Ret           : Int;
+      C_Description : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Host);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Open_System_Remote unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Open_System_Remote";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Open_System_With_Description (Bus.Impl'Address, Description => C_Description);
+      Interfaces.C.Strings.Free (C_Description);
+      Retcode_2_Exception (Ret);
    end Open_System_Remote;
 
    -------------------------
    -- Open_System_Machine --
    -------------------------
 
-   function Open_System_Machine
-     (Ret : System.Address; Machine : String) return Int
-   is
+   procedure Open_System_Machine (Bus : in out Sd_Bus; Machine : String) is
+      Ret           : Int;
+      C_Machine     : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Machine);
    begin
-      pragma Compile_Time_Warning
-        (Standard.True, "Open_System_Machine unimplemented");
-      return
-        raise Program_Error with "Unimplemented function Open_System_Machine";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Open_System_Machine (Bus.Impl'Address, C_Machine);
+      Interfaces.C.Strings.Free (C_Machine);
+      Retcode_2_Exception (Ret);
    end Open_System_Machine;
 
    -------------
    -- New_Bus --
    -------------
 
-   function New_Bus (Ret : System.Address) return Int is
+   procedure New_Bus (Bus : in out Sd_Bus) is
+      Ret           : Int;
    begin
-      pragma Compile_Time_Warning (Standard.True, "New_Bus unimplemented");
-      return raise Program_Error with "Unimplemented function New_Bus";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_New (Bus.Impl'Address);
+      Retcode_2_Exception (Ret);
    end New_Bus;
 
    -----------------
    -- Set_Address --
    -----------------
 
-   function Set_Address (Bus : access Sd_Bus; Address : String) return Int is
+   procedure Set_Address (Bus     : Sd_Bus;
+                          Address : String) is
+      Ret           : Int;
+      C_Address     : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Address);
    begin
-      pragma Compile_Time_Warning (Standard.True, "Set_Address unimplemented");
-      return raise Program_Error with "Unimplemented function Set_Address";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Set_Address (Bus.Impl, C_Address);
+      Interfaces.C.Strings.Free (C_Address);
+      Retcode_2_Exception (Ret);
    end Set_Address;
 
    ------------
    -- Set_Fd --
    ------------
-
-   function Set_Fd
-     (Bus : access Sd_Bus; Input_Fd : Int; Output_Fd : Int) return Int
+   function File_Descriptor_As_Int is new Ada.Unchecked_Conversion (GNAT.OS_Lib.File_Descriptor, Int);
+   procedure Set_Fd
+     (Bus       : in out Sd_Bus;
+      Input_Fd  : GNAT.OS_Lib.File_Descriptor;
+      Output_Fd : GNAT.OS_Lib.File_Descriptor)
    is
+      Ret           : Int;
    begin
-      pragma Compile_Time_Warning (Standard.True, "Set_Fd unimplemented");
-      return raise Program_Error with "Unimplemented function Set_Fd";
+      Ret := Systemd_Sd_Bus_H.Sd_Bus_Set_Fd (Bus.Impl, File_Descriptor_As_Int (Input_Fd), File_Descriptor_As_Int (Output_Fd));
+      Retcode_2_Exception (Ret);
    end Set_Fd;
 
    --------------
@@ -345,7 +344,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Negotiate_Timestamp unimplemented");
       return
-        raise Program_Error with "Unimplemented function Negotiate_Timestamp";
+      raise Program_Error with "Unimplemented function Negotiate_Timestamp";
    end Negotiate_Timestamp;
 
    -------------------
@@ -393,8 +392,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Set_Allow_Interactive_Authorization unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Set_Allow_Interactive_Authorization";
+      raise Program_Error
+        with "Unimplemented function Set_Allow_Interactive_Authorization";
    end Set_Allow_Interactive_Authorization;
 
    -----------------------------------------
@@ -408,8 +407,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Allow_Interactive_Authorization unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Allow_Interactive_Authorization";
+      raise Program_Error
+        with "Unimplemented function Get_Allow_Interactive_Authorization";
    end Get_Allow_Interactive_Authorization;
 
    ----------------------------
@@ -421,8 +420,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Set_Exit_On_Disconnect unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Set_Exit_On_Disconnect";
+      raise Program_Error
+        with "Unimplemented function Set_Exit_On_Disconnect";
    end Set_Exit_On_Disconnect;
 
    ----------------------------
@@ -434,8 +433,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Exit_On_Disconnect unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Exit_On_Disconnect";
+      raise Program_Error
+        with "Unimplemented function Get_Exit_On_Disconnect";
    end Get_Exit_On_Disconnect;
 
    -----------------------
@@ -447,7 +446,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Set_Close_On_Exit unimplemented");
       return
-        raise Program_Error with "Unimplemented function Set_Close_On_Exit";
+      raise Program_Error with "Unimplemented function Set_Close_On_Exit";
    end Set_Close_On_Exit;
 
    -----------------------
@@ -459,7 +458,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Close_On_Exit unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Close_On_Exit";
+      raise Program_Error with "Unimplemented function Get_Close_On_Exit";
    end Get_Close_On_Exit;
 
    --------------------
@@ -493,7 +492,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Set_Connected_Signal unimplemented");
       return
-        raise Program_Error with "Unimplemented function Set_Connected_Signal";
+      raise Program_Error with "Unimplemented function Set_Connected_Signal";
    end Set_Connected_Signal;
 
    --------------------------
@@ -505,7 +504,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Connected_Signal unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Connected_Signal";
+      raise Program_Error with "Unimplemented function Get_Connected_Signal";
    end Get_Connected_Signal;
 
    ----------------
@@ -598,7 +597,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Flush_Close_Unref unimplemented");
       return
-        raise Program_Error with "Unimplemented function Flush_Close_Unref";
+      raise Program_Error with "Unimplemented function Flush_Close_Unref";
    end Flush_Close_Unref;
 
    -------------------------
@@ -710,7 +709,7 @@ package body Systemd.Bus is
    ----------
 
    function Call
-     (Bus : access Sd_Bus; M : access Message'Class; Usec : Unsigned_Long;
+     (Bus       : access Sd_Bus; M : access Message'Class; Usec : Unsigned_Long;
       Ret_Error : access Error; Reply : System.Address) return Int
    is
    begin
@@ -723,7 +722,7 @@ package body Systemd.Bus is
    ----------------
 
    function Call_Async
-     (Bus : access Sd_Bus; Slot : System.Address; M : access Message'Class;
+     (Bus      : access Sd_Bus; Slot : System.Address; M : access Message'Class;
       Callback : Message_Handler_T; Userdata : System.Address;
       Usec     : Unsigned_Long) return Int
    is
@@ -785,7 +784,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Process_Priority unimplemented");
       return
-        raise Program_Error with "Unimplemented function Process_Priority";
+      raise Program_Error with "Unimplemented function Process_Priority";
    end Process_Priority;
 
    ----------
@@ -818,7 +817,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Current_Slot unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Current_Slot";
+      raise Program_Error with "Unimplemented function Get_Current_Slot";
    end Get_Current_Slot;
 
    -------------------------
@@ -832,7 +831,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Current_Message unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Current_Message";
+      raise Program_Error with "Unimplemented function Get_Current_Message";
    end Get_Current_Message;
 
    -------------------------
@@ -845,7 +844,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Current_Handler unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Current_Handler";
+      raise Program_Error with "Unimplemented function Get_Current_Handler";
    end Get_Current_Handler;
 
    --------------------------
@@ -857,7 +856,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Current_Userdata unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Current_Userdata";
+      raise Program_Error with "Unimplemented function Get_Current_Userdata";
    end Get_Current_Userdata;
 
    ------------------
@@ -908,7 +907,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_N_Queued_Read unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_N_Queued_Read";
+      raise Program_Error with "Unimplemented function Get_N_Queued_Read";
    end Get_N_Queued_Read;
 
    ------------------------
@@ -922,7 +921,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_N_Queued_Write unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_N_Queued_Write";
+      raise Program_Error with "Unimplemented function Get_N_Queued_Write";
    end Get_N_Queued_Write;
 
    -----------------------------
@@ -936,8 +935,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Set_Method_Call_Timeout unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Set_Method_Call_Timeout";
+      raise Program_Error
+        with "Unimplemented function Set_Method_Call_Timeout";
    end Set_Method_Call_Timeout;
 
    -----------------------------
@@ -951,8 +950,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Method_Call_Timeout unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Get_Method_Call_Timeout";
+      raise Program_Error
+        with "Unimplemented function Get_Method_Call_Timeout";
    end Get_Method_Call_Timeout;
 
    ----------------
@@ -960,7 +959,7 @@ package body Systemd.Bus is
    ----------------
 
    function Add_Filter
-     (Bus : access Sd_Bus; Slot : System.Address; Callback : Message_Handler_T;
+     (Bus      : access Sd_Bus; Slot : System.Address; Callback : Message_Handler_T;
       Userdata : System.Address) return Int
    is
    begin
@@ -1037,7 +1036,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Add_Object_Vtable unimplemented");
       return
-        raise Program_Error with "Unimplemented function Add_Object_Vtable";
+      raise Program_Error with "Unimplemented function Add_Object_Vtable";
    end Add_Object_Vtable;
 
    -------------------------
@@ -1054,7 +1053,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Add_Fallback_Vtable unimplemented");
       return
-        raise Program_Error with "Unimplemented function Add_Fallback_Vtable";
+      raise Program_Error with "Unimplemented function Add_Fallback_Vtable";
    end Add_Fallback_Vtable;
 
    -------------------------
@@ -1069,7 +1068,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Add_Node_Enumerator unimplemented");
       return
-        raise Program_Error with "Unimplemented function Add_Node_Enumerator";
+      raise Program_Error with "Unimplemented function Add_Node_Enumerator";
    end Add_Node_Enumerator;
 
    ------------------------
@@ -1083,7 +1082,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Add_Object_Manager unimplemented");
       return
-        raise Program_Error with "Unimplemented function Add_Object_Manager";
+      raise Program_Error with "Unimplemented function Add_Object_Manager";
    end Add_Object_Manager;
 
    --------------
@@ -1110,7 +1109,7 @@ package body Systemd.Bus is
    -- Slot_Get_Bus --
    ------------------
 
-   function Slot_Get_Bus (s : access Slot) return access Sd_Bus'Class is
+   function Slot_Get_Bus (S : access Slot) return access Sd_Bus'Class is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Bus unimplemented");
@@ -1126,7 +1125,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Userdata unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Get_Userdata";
+      raise Program_Error with "Unimplemented function Slot_Get_Userdata";
    end Slot_Get_Userdata;
 
    -----------------------
@@ -1140,7 +1139,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Set_Userdata unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Set_Userdata";
+      raise Program_Error with "Unimplemented function Slot_Set_Userdata";
    end Slot_Set_Userdata;
 
    --------------------------
@@ -1154,7 +1153,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Set_Description unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Set_Description";
+      raise Program_Error with "Unimplemented function Slot_Set_Description";
    end Slot_Set_Description;
 
    --------------------------
@@ -1168,7 +1167,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Description unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Get_Description";
+      raise Program_Error with "Unimplemented function Slot_Get_Description";
    end Slot_Get_Description;
 
    -----------------------
@@ -1180,7 +1179,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Floating unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Get_Floating";
+      raise Program_Error with "Unimplemented function Slot_Get_Floating";
    end Slot_Get_Floating;
 
    -----------------------
@@ -1192,7 +1191,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Set_Floating unimplemented");
       return
-        raise Program_Error with "Unimplemented function Slot_Set_Floating";
+      raise Program_Error with "Unimplemented function Slot_Set_Floating";
    end Slot_Set_Floating;
 
    -------------------------------
@@ -1206,8 +1205,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Set_Destroy_Callback unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Slot_Set_Destroy_Callback";
+      raise Program_Error
+        with "Unimplemented function Slot_Set_Destroy_Callback";
    end Slot_Set_Destroy_Callback;
 
    -------------------------------
@@ -1221,8 +1220,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Destroy_Callback unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Slot_Get_Destroy_Callback";
+      raise Program_Error
+        with "Unimplemented function Slot_Get_Destroy_Callback";
    end Slot_Get_Destroy_Callback;
 
    ------------------------------
@@ -1236,8 +1235,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Current_Message unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Slot_Get_Current_Message";
+      raise Program_Error
+        with "Unimplemented function Slot_Get_Current_Message";
    end Slot_Get_Current_Message;
 
    ------------------------------
@@ -1250,8 +1249,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Current_Handler unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Slot_Get_Current_Handler";
+      raise Program_Error
+        with "Unimplemented function Slot_Get_Current_Handler";
    end Slot_Get_Current_Handler;
 
    -------------------------------
@@ -1264,8 +1263,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Slot_Get_Current_Userdata unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Slot_Get_Current_Userdata";
+      raise Program_Error
+        with "Unimplemented function Slot_Get_Current_Userdata";
    end Slot_Get_Current_Userdata;
 
    -----------------
@@ -1293,7 +1292,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Signal unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_New_Signal";
+      raise Program_Error with "Unimplemented function Message_New_Signal";
    end Message_New_Signal;
 
    -----------------------------
@@ -1308,8 +1307,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Call unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Call";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Call";
    end Message_New_Method_Call;
 
    -------------------------------
@@ -1323,8 +1322,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Return unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Return";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Return";
    end Message_New_Method_Return;
 
    ------------------------------
@@ -1339,8 +1338,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Error unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Error";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Error";
    end Message_New_Method_Error;
 
    -------------------------------
@@ -1355,8 +1354,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Errorf unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Errorf";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Errorf";
    end Message_New_Method_Errorf;
 
    ------------------------------
@@ -1371,8 +1370,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Errno unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Errno";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Errno";
    end Message_New_Method_Errno;
 
    -------------------------------
@@ -1387,8 +1386,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_New_Method_Errnof unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_New_Method_Errnof";
+      raise Program_Error
+        with "Unimplemented function Message_New_Method_Errnof";
    end Message_New_Method_Errnof;
 
    -----------------
@@ -1437,7 +1436,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Type unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Type";
+      raise Program_Error with "Unimplemented function Message_Get_Type";
    end Message_Get_Type;
 
    ------------------------
@@ -1451,7 +1450,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Cookie unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Cookie";
+      raise Program_Error with "Unimplemented function Message_Get_Cookie";
    end Message_Get_Cookie;
 
    ------------------------------
@@ -1465,8 +1464,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Reply_Cookie unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Reply_Cookie";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Reply_Cookie";
    end Message_Get_Reply_Cookie;
 
    --------------------------
@@ -1480,7 +1479,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Priority unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Priority";
+      raise Program_Error with "Unimplemented function Message_Get_Priority";
    end Message_Get_Priority;
 
    ------------------------------
@@ -1492,8 +1491,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Expect_Reply unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Expect_Reply";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Expect_Reply";
    end Message_Get_Expect_Reply;
 
    ----------------------------
@@ -1505,8 +1504,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Auto_Start unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Auto_Start";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Auto_Start";
    end Message_Get_Auto_Start;
 
    -------------------------------------------------
@@ -1521,8 +1520,8 @@ package body Systemd.Bus is
         (Standard.True,
          "Message_Get_Allow_Interactive_Authorization unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Allow_Interactive_Authorization";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Allow_Interactive_Authorization";
    end Message_Get_Allow_Interactive_Authorization;
 
    ---------------------------
@@ -1536,8 +1535,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Signature unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Signature";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Signature";
    end Message_Get_Signature;
 
    ----------------------
@@ -1549,7 +1548,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Path unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Path";
+      raise Program_Error with "Unimplemented function Message_Get_Path";
    end Message_Get_Path;
 
    ---------------------------
@@ -1561,8 +1560,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Interface unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Interface";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Interface";
    end Message_Get_Interface;
 
    ------------------------
@@ -1574,7 +1573,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Member unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Member";
+      raise Program_Error with "Unimplemented function Message_Get_Member";
    end Message_Get_Member;
 
    -----------------------------
@@ -1586,8 +1585,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Destination unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Destination";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Destination";
    end Message_Get_Destination;
 
    ------------------------
@@ -1599,7 +1598,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Sender unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Sender";
+      raise Program_Error with "Unimplemented function Message_Get_Sender";
    end Message_Get_Sender;
 
    -----------------------
@@ -1612,7 +1611,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Error unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Error";
+      raise Program_Error with "Unimplemented function Message_Get_Error";
    end Message_Get_Error;
 
    -----------------------
@@ -1624,7 +1623,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Errno unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Errno";
+      raise Program_Error with "Unimplemented function Message_Get_Errno";
    end Message_Get_Errno;
 
    --------------------------------
@@ -1638,8 +1637,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Monotonic_Usec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Monotonic_Usec";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Monotonic_Usec";
    end Message_Get_Monotonic_Usec;
 
    -------------------------------
@@ -1653,8 +1652,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Realtime_Usec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Get_Realtime_Usec";
+      raise Program_Error
+        with "Unimplemented function Message_Get_Realtime_Usec";
    end Message_Get_Realtime_Usec;
 
    ------------------------
@@ -1668,7 +1667,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Seqnum unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Seqnum";
+      raise Program_Error with "Unimplemented function Message_Get_Seqnum";
    end Message_Get_Seqnum;
 
    ---------------------
@@ -1691,7 +1690,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Get_Creds unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Get_Creds";
+      raise Program_Error with "Unimplemented function Message_Get_Creds";
    end Message_Get_Creds;
 
    -----------------------
@@ -1705,7 +1704,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Is_Signal unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Is_Signal";
+      raise Program_Error with "Unimplemented function Message_Is_Signal";
    end Message_Is_Signal;
 
    ----------------------------
@@ -1719,8 +1718,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Is_Method_Call unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Is_Method_Call";
+      raise Program_Error
+        with "Unimplemented function Message_Is_Method_Call";
    end Message_Is_Method_Call;
 
    -----------------------------
@@ -1734,8 +1733,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Is_Method_Error unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Is_Method_Error";
+      raise Program_Error
+        with "Unimplemented function Message_Is_Method_Error";
    end Message_Is_Method_Error;
 
    ----------------------
@@ -1747,7 +1746,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Is_Empty unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Is_Empty";
+      raise Program_Error with "Unimplemented function Message_Is_Empty";
    end Message_Is_Empty;
 
    ---------------------------
@@ -1761,8 +1760,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Has_Signature unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Has_Signature";
+      raise Program_Error
+        with "Unimplemented function Message_Has_Signature";
    end Message_Has_Signature;
 
    ------------------------------
@@ -1775,8 +1774,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Set_Expect_Reply unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Set_Expect_Reply";
+      raise Program_Error
+        with "Unimplemented function Message_Set_Expect_Reply";
    end Message_Set_Expect_Reply;
 
    ----------------------------
@@ -1788,8 +1787,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Set_Auto_Start unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Set_Auto_Start";
+      raise Program_Error
+        with "Unimplemented function Message_Set_Auto_Start";
    end Message_Set_Auto_Start;
 
    -------------------------------------------------
@@ -1804,8 +1803,8 @@ package body Systemd.Bus is
         (Standard.True,
          "Message_Set_Allow_Interactive_Authorization unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Set_Allow_Interactive_Authorization";
+      raise Program_Error
+        with "Unimplemented function Message_Set_Allow_Interactive_Authorization";
    end Message_Set_Allow_Interactive_Authorization;
 
    -----------------------------
@@ -1819,8 +1818,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Set_Destination unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Set_Destination";
+      raise Program_Error
+        with "Unimplemented function Message_Set_Destination";
    end Message_Set_Destination;
 
    ------------------------
@@ -1833,7 +1832,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Set_Sender unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Set_Sender";
+      raise Program_Error with "Unimplemented function Message_Set_Sender";
    end Message_Set_Sender;
 
    --------------------------
@@ -1847,7 +1846,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Set_Priority unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Set_Priority";
+      raise Program_Error with "Unimplemented function Message_Set_Priority";
    end Message_Set_Priority;
 
    --------------------
@@ -1886,7 +1885,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Basic unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Append_Basic";
+      raise Program_Error with "Unimplemented function Message_Append_Basic";
    end Message_Append_Basic;
 
    --------------------------
@@ -1901,7 +1900,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Array unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Append_Array";
+      raise Program_Error with "Unimplemented function Message_Append_Array";
    end Message_Append_Array;
 
    --------------------------------
@@ -1916,8 +1915,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Array_Space unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_Array_Space";
+      raise Program_Error
+        with "Unimplemented function Message_Append_Array_Space";
    end Message_Append_Array_Space;
 
    --------------------------------
@@ -1932,8 +1931,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Array_Iovec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_Array_Iovec";
+      raise Program_Error
+        with "Unimplemented function Message_Append_Array_Iovec";
    end Message_Append_Array_Iovec;
 
    --------------------------------
@@ -1941,15 +1940,15 @@ package body Systemd.Bus is
    --------------------------------
 
    function Message_Append_Array_Memfd
-     (M : access Message; C_Type : Char; Memfd : Int; Offset : Unsigned_Long;
+     (M    : access Message; C_Type : Char; Memfd : Int; Offset : Unsigned_Long;
       Size : Unsigned_Long) return Int
    is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Array_Memfd unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_Array_Memfd";
+      raise Program_Error
+        with "Unimplemented function Message_Append_Array_Memfd";
    end Message_Append_Array_Memfd;
 
    ---------------------------------
@@ -1963,8 +1962,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_String_Space unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_String_Space";
+      raise Program_Error
+        with "Unimplemented function Message_Append_String_Space";
    end Message_Append_String_Space;
 
    ---------------------------------
@@ -1979,8 +1978,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_String_Iovec unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_String_Iovec";
+      raise Program_Error
+        with "Unimplemented function Message_Append_String_Iovec";
    end Message_Append_String_Iovec;
 
    ---------------------------------
@@ -1995,8 +1994,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_String_Memfd unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Append_String_Memfd";
+      raise Program_Error
+        with "Unimplemented function Message_Append_String_Memfd";
    end Message_Append_String_Memfd;
 
    -------------------------
@@ -2010,7 +2009,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Append_Strv unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Append_Strv";
+      raise Program_Error with "Unimplemented function Message_Append_Strv";
    end Message_Append_Strv;
 
    ----------------------------
@@ -2024,8 +2023,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Open_Container unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Open_Container";
+      raise Program_Error
+        with "Unimplemented function Message_Open_Container";
    end Message_Open_Container;
 
    -----------------------------
@@ -2037,8 +2036,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Close_Container unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Close_Container";
+      raise Program_Error
+        with "Unimplemented function Message_Close_Container";
    end Message_Close_Container;
 
    ------------------
@@ -2090,7 +2089,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Read_Basic unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Read_Basic";
+      raise Program_Error with "Unimplemented function Message_Read_Basic";
    end Message_Read_Basic;
 
    ------------------------
@@ -2105,7 +2104,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Read_Array unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Read_Array";
+      raise Program_Error with "Unimplemented function Message_Read_Array";
    end Message_Read_Array;
 
    -----------------------
@@ -2119,7 +2118,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Read_Strv unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Read_Strv";
+      raise Program_Error with "Unimplemented function Message_Read_Strv";
    end Message_Read_Strv;
 
    ------------------
@@ -2144,8 +2143,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Enter_Container unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Enter_Container";
+      raise Program_Error
+        with "Unimplemented function Message_Enter_Container";
    end Message_Enter_Container;
 
    ----------------------------
@@ -2157,8 +2156,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Exit_Container unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Message_Exit_Container";
+      raise Program_Error
+        with "Unimplemented function Message_Exit_Container";
    end Message_Exit_Container;
 
    -----------------------
@@ -2173,7 +2172,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Peek_Type unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Peek_Type";
+      raise Program_Error with "Unimplemented function Message_Peek_Type";
    end Message_Peek_Type;
 
    -------------------------
@@ -2187,7 +2186,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Message_Verify_Type unimplemented");
       return
-        raise Program_Error with "Unimplemented function Message_Verify_Type";
+      raise Program_Error with "Unimplemented function Message_Verify_Type";
    end Message_Verify_Type;
 
    --------------------
@@ -2251,7 +2250,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Request_Name_Async unimplemented");
       return
-        raise Program_Error with "Unimplemented function Request_Name_Async";
+      raise Program_Error with "Unimplemented function Request_Name_Async";
    end Request_Name_Async;
 
    ------------------
@@ -2277,7 +2276,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Release_Name_Async unimplemented");
       return
-        raise Program_Error with "Unimplemented function Release_Name_Async";
+      raise Program_Error with "Unimplemented function Release_Name_Async";
    end Release_Name_Async;
 
    ----------------
@@ -2319,7 +2318,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Name_Machine_Id unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Name_Machine_Id";
+      raise Program_Error with "Unimplemented function Get_Name_Machine_Id";
    end Get_Name_Machine_Id;
 
    -----------------
@@ -2350,7 +2349,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Call_Method_Async unimplemented");
       return
-        raise Program_Error with "Unimplemented function Call_Method_Async";
+      raise Program_Error with "Unimplemented function Call_Method_Async";
    end Call_Method_Async;
 
    ------------------
@@ -2381,7 +2380,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Property_Trivial unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Property_Trivial";
+      raise Program_Error with "Unimplemented function Get_Property_Trivial";
    end Get_Property_Trivial;
 
    -------------------------
@@ -2397,7 +2396,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Property_String unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Property_String";
+      raise Program_Error with "Unimplemented function Get_Property_String";
    end Get_Property_String;
 
    -----------------------
@@ -2413,7 +2412,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Get_Property_Strv unimplemented");
       return
-        raise Program_Error with "Unimplemented function Get_Property_Strv";
+      raise Program_Error with "Unimplemented function Get_Property_Strv";
    end Get_Property_Strv;
 
    ------------------
@@ -2442,7 +2441,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Reply_Method_Return unimplemented");
       return
-        raise Program_Error with "Unimplemented function Reply_Method_Return";
+      raise Program_Error with "Unimplemented function Reply_Method_Return";
    end Reply_Method_Return;
 
    ------------------------
@@ -2456,7 +2455,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Reply_Method_Error unimplemented");
       return
-        raise Program_Error with "Unimplemented function Reply_Method_Error";
+      raise Program_Error with "Unimplemented function Reply_Method_Error";
    end Reply_Method_Error;
 
    -------------------------
@@ -2470,7 +2469,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Reply_Method_Errorf unimplemented");
       return
-        raise Program_Error with "Unimplemented function Reply_Method_Errorf";
+      raise Program_Error with "Unimplemented function Reply_Method_Errorf";
    end Reply_Method_Errorf;
 
    ------------------------
@@ -2485,7 +2484,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Reply_Method_Errno unimplemented");
       return
-        raise Program_Error with "Unimplemented function Reply_Method_Errno";
+      raise Program_Error with "Unimplemented function Reply_Method_Errno";
    end Reply_Method_Errno;
 
    -------------------------
@@ -2499,7 +2498,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Reply_Method_Errnof unimplemented");
       return
-        raise Program_Error with "Unimplemented function Reply_Method_Errnof";
+      raise Program_Error with "Unimplemented function Reply_Method_Errnof";
    end Reply_Method_Errnof;
 
    -----------------
@@ -2527,8 +2526,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Properties_Changed_Strv unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Properties_Changed_Strv";
+      raise Program_Error
+        with "Unimplemented function Emit_Properties_Changed_Strv";
    end Emit_Properties_Changed_Strv;
 
    -----------------------------
@@ -2543,8 +2542,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Properties_Changed unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Properties_Changed";
+      raise Program_Error
+        with "Unimplemented function Emit_Properties_Changed";
    end Emit_Properties_Changed;
 
    -----------------------
@@ -2557,7 +2556,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Object_Added unimplemented");
       return
-        raise Program_Error with "Unimplemented function Emit_Object_Added";
+      raise Program_Error with "Unimplemented function Emit_Object_Added";
    end Emit_Object_Added;
 
    -------------------------
@@ -2570,7 +2569,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Object_Removed unimplemented");
       return
-        raise Program_Error with "Unimplemented function Emit_Object_Removed";
+      raise Program_Error with "Unimplemented function Emit_Object_Removed";
    end Emit_Object_Removed;
 
    --------------------------------
@@ -2585,8 +2584,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Interfaces_Added_Strv unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Interfaces_Added_Strv";
+      raise Program_Error
+        with "Unimplemented function Emit_Interfaces_Added_Strv";
    end Emit_Interfaces_Added_Strv;
 
    ---------------------------
@@ -2600,8 +2599,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Interfaces_Added unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Interfaces_Added";
+      raise Program_Error
+        with "Unimplemented function Emit_Interfaces_Added";
    end Emit_Interfaces_Added;
 
    ----------------------------------
@@ -2616,8 +2615,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Interfaces_Removed_Strv unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Interfaces_Removed_Strv";
+      raise Program_Error
+        with "Unimplemented function Emit_Interfaces_Removed_Strv";
    end Emit_Interfaces_Removed_Strv;
 
    -----------------------------
@@ -2631,8 +2630,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Emit_Interfaces_Removed unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Emit_Interfaces_Removed";
+      raise Program_Error
+        with "Unimplemented function Emit_Interfaces_Removed";
    end Emit_Interfaces_Removed;
 
    ------------------------
@@ -2647,7 +2646,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Query_Sender_Creds unimplemented");
       return
-        raise Program_Error with "Unimplemented function Query_Sender_Creds";
+      raise Program_Error with "Unimplemented function Query_Sender_Creds";
    end Query_Sender_Creds;
 
    ----------------------------
@@ -2661,8 +2660,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Query_Sender_Privilege unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Query_Sender_Privilege";
+      raise Program_Error
+        with "Unimplemented function Query_Sender_Privilege";
    end Query_Sender_Privilege;
 
    ------------------
@@ -2694,7 +2693,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Match_Signal_Async unimplemented");
       return
-        raise Program_Error with "Unimplemented function Match_Signal_Async";
+      raise Program_Error with "Unimplemented function Match_Signal_Async";
    end Match_Signal_Async;
 
    ------------------------
@@ -2708,7 +2707,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_New_From_Pid unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_New_From_Pid";
+      raise Program_Error with "Unimplemented function Creds_New_From_Pid";
    end Creds_New_From_Pid;
 
    ---------------
@@ -2753,8 +2752,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Augmented_Mask unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Augmented_Mask";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Augmented_Mask";
    end Creds_Get_Augmented_Mask;
 
    -------------------
@@ -2895,8 +2894,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Supplementary_Gids unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Supplementary_Gids";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Supplementary_Gids";
    end Creds_Get_Supplementary_Gids;
 
    --------------------
@@ -2922,7 +2921,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Tid_Comm unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_Tid_Comm";
+      raise Program_Error with "Unimplemented function Creds_Get_Tid_Comm";
    end Creds_Get_Tid_Comm;
 
    -------------------
@@ -2948,7 +2947,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Cmdline unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_Cmdline";
+      raise Program_Error with "Unimplemented function Creds_Get_Cmdline";
    end Creds_Get_Cmdline;
 
    ----------------------
@@ -2962,7 +2961,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Cgroup unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_Cgroup";
+      raise Program_Error with "Unimplemented function Creds_Get_Cgroup";
    end Creds_Get_Cgroup;
 
    --------------------
@@ -3001,7 +3000,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_User_Unit unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_User_Unit";
+      raise Program_Error with "Unimplemented function Creds_Get_User_Unit";
    end Creds_Get_User_Unit;
 
    --------------------------
@@ -3015,7 +3014,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_User_Slice unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_User_Slice";
+      raise Program_Error with "Unimplemented function Creds_Get_User_Slice";
    end Creds_Get_User_Slice;
 
    -----------------------
@@ -3029,7 +3028,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Session unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_Session";
+      raise Program_Error with "Unimplemented function Creds_Get_Session";
    end Creds_Get_Session;
 
    -------------------------
@@ -3043,7 +3042,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Owner_Uid unimplemented");
       return
-        raise Program_Error with "Unimplemented function Creds_Get_Owner_Uid";
+      raise Program_Error with "Unimplemented function Creds_Get_Owner_Uid";
    end Creds_Get_Owner_Uid;
 
    -----------------------------
@@ -3057,8 +3056,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Has_Effective_Cap unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Has_Effective_Cap";
+      raise Program_Error
+        with "Unimplemented function Creds_Has_Effective_Cap";
    end Creds_Has_Effective_Cap;
 
    -----------------------------
@@ -3072,8 +3071,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Has_Permitted_Cap unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Has_Permitted_Cap";
+      raise Program_Error
+        with "Unimplemented function Creds_Has_Permitted_Cap";
    end Creds_Has_Permitted_Cap;
 
    -------------------------------
@@ -3087,8 +3086,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Has_Inheritable_Cap unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Has_Inheritable_Cap";
+      raise Program_Error
+        with "Unimplemented function Creds_Has_Inheritable_Cap";
    end Creds_Has_Inheritable_Cap;
 
    ----------------------------
@@ -3102,8 +3101,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Has_Bounding_Cap unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Has_Bounding_Cap";
+      raise Program_Error
+        with "Unimplemented function Creds_Has_Bounding_Cap";
    end Creds_Has_Bounding_Cap;
 
    -------------------------------
@@ -3117,8 +3116,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Selinux_Context unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Selinux_Context";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Selinux_Context";
    end Creds_Get_Selinux_Context;
 
    --------------------------------
@@ -3132,8 +3131,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Audit_Session_Id unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Audit_Session_Id";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Audit_Session_Id";
    end Creds_Get_Audit_Session_Id;
 
    -------------------------------
@@ -3147,8 +3146,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Audit_Login_Uid unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Audit_Login_Uid";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Audit_Login_Uid";
    end Creds_Get_Audit_Login_Uid;
 
    -------------------
@@ -3174,8 +3173,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Unique_Name unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Unique_Name";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Unique_Name";
    end Creds_Get_Unique_Name;
 
    --------------------------------
@@ -3189,8 +3188,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Well_Known_Names unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Well_Known_Names";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Well_Known_Names";
    end Creds_Get_Well_Known_Names;
 
    ---------------------------
@@ -3204,8 +3203,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Creds_Get_Description unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Creds_Get_Description";
+      raise Program_Error
+        with "Unimplemented function Creds_Get_Description";
    end Creds_Get_Description;
 
    ----------------
@@ -3277,7 +3276,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Error_Set_Errnof unimplemented");
       return
-        raise Program_Error with "Unimplemented function Error_Set_Errnof";
+      raise Program_Error with "Unimplemented function Error_Set_Errnof";
    end Error_Set_Errnof;
 
    -----------------------
@@ -3292,7 +3291,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Error_Set_Errnofv unimplemented");
       return
-        raise Program_Error with "Unimplemented function Error_Set_Errnofv";
+      raise Program_Error with "Unimplemented function Error_Set_Errnofv";
    end Error_Set_Errnofv;
 
    ---------------------
@@ -3387,7 +3386,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Path_Encode_Many unimplemented");
       return
-        raise Program_Error with "Unimplemented function Path_Encode_Many";
+      raise Program_Error with "Unimplemented function Path_Encode_Many";
    end Path_Encode_Many;
 
    -----------------
@@ -3413,7 +3412,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Path_Decode_Many unimplemented");
       return
-        raise Program_Error with "Unimplemented function Path_Decode_Many";
+      raise Program_Error with "Unimplemented function Path_Decode_Many";
    end Path_Decode_Many;
 
    ---------------
@@ -3421,7 +3420,7 @@ package body Systemd.Bus is
    ---------------
 
    function Track_New
-     (Bus : access Sd_Bus; Track : System.Address; Handler : Track_Handler_T;
+     (Bus      : access Sd_Bus; Track : System.Address; Handler : Track_Handler_T;
       Userdata : System.Address) return Int
    is
    begin
@@ -3433,7 +3432,7 @@ package body Systemd.Bus is
    -- Track_Ref --
    ---------------
 
-   function Track_Ref (t : access Track) return access Track'Class is
+   function Track_Ref (T : access Track) return access Track'Class is
    begin
       pragma Compile_Time_Warning (Standard.True, "Track_Ref unimplemented");
       return raise Program_Error with "Unimplemented function Track_Ref";
@@ -3443,7 +3442,7 @@ package body Systemd.Bus is
    -- Track_Unref --
    -----------------
 
-   function Track_Unref (t : access Track) return access Track'Class is
+   function Track_Unref (T : access Track) return access Track'Class is
    begin
       pragma Compile_Time_Warning (Standard.True, "Track_Unref unimplemented");
       return raise Program_Error with "Unimplemented function Track_Unref";
@@ -3453,7 +3452,7 @@ package body Systemd.Bus is
    -- Track_Get_Bus --
    -------------------
 
-   function Track_Get_Bus (t : access Track) return access Sd_Bus'Class is
+   function Track_Get_Bus (T : access Track) return access Sd_Bus'Class is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Get_Bus unimplemented");
@@ -3464,12 +3463,12 @@ package body Systemd.Bus is
    -- Track_Get_Userdata --
    ------------------------
 
-   function Track_Get_Userdata (t : access Track) return System.Address is
+   function Track_Get_Userdata (T : access Track) return System.Address is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Get_Userdata unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Get_Userdata";
+      raise Program_Error with "Unimplemented function Track_Get_Userdata";
    end Track_Get_Userdata;
 
    ------------------------
@@ -3477,13 +3476,13 @@ package body Systemd.Bus is
    ------------------------
 
    function Track_Set_Userdata
-     (t : access Track; Userdata : System.Address) return System.Address
+     (T : access Track; Userdata : System.Address) return System.Address
    is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Set_Userdata unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Set_Userdata";
+      raise Program_Error with "Unimplemented function Track_Set_Userdata";
    end Track_Set_Userdata;
 
    ----------------------
@@ -3491,13 +3490,13 @@ package body Systemd.Bus is
    ----------------------
 
    function Track_Add_Sender
-     (t : access Track; M : access Message'Class) return Int
+     (T : access Track; M : access Message'Class) return Int
    is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Add_Sender unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Add_Sender";
+      raise Program_Error with "Unimplemented function Track_Add_Sender";
    end Track_Add_Sender;
 
    -------------------------
@@ -3505,20 +3504,20 @@ package body Systemd.Bus is
    -------------------------
 
    function Track_Remove_Sender
-     (t : access Track; M : access Message'Class) return Int
+     (T : access Track; M : access Message'Class) return Int
    is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Remove_Sender unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Remove_Sender";
+      raise Program_Error with "Unimplemented function Track_Remove_Sender";
    end Track_Remove_Sender;
 
    --------------------
    -- Track_Add_Name --
    --------------------
 
-   function Track_Add_Name (t : access Track; Name : String) return Int is
+   function Track_Add_Name (T : access Track; Name : String) return Int is
    begin
       pragma Compile_Time_Warning
         (Standard.True, "Track_Add_Name unimplemented");
@@ -3534,7 +3533,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Remove_Name unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Remove_Name";
+      raise Program_Error with "Unimplemented function Track_Remove_Name";
    end Track_Remove_Name;
 
    -------------------------
@@ -3546,7 +3545,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Set_Recursive unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Set_Recursive";
+      raise Program_Error with "Unimplemented function Track_Set_Recursive";
    end Track_Set_Recursive;
 
    -------------------------
@@ -3558,7 +3557,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Get_Recursive unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Get_Recursive";
+      raise Program_Error with "Unimplemented function Track_Get_Recursive";
    end Track_Get_Recursive;
 
    -----------------
@@ -3582,7 +3581,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Count_Sender unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Count_Sender";
+      raise Program_Error with "Unimplemented function Track_Count_Sender";
    end Track_Count_Sender;
 
    ----------------------
@@ -3594,7 +3593,7 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Count_Name unimplemented");
       return
-        raise Program_Error with "Unimplemented function Track_Count_Name";
+      raise Program_Error with "Unimplemented function Track_Count_Name";
    end Track_Count_Name;
 
    --------------------
@@ -3639,8 +3638,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Set_Destroy_Callback unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Track_Set_Destroy_Callback";
+      raise Program_Error
+        with "Unimplemented function Track_Set_Destroy_Callback";
    end Track_Set_Destroy_Callback;
 
    --------------------------------
@@ -3654,8 +3653,8 @@ package body Systemd.Bus is
       pragma Compile_Time_Warning
         (Standard.True, "Track_Get_Destroy_Callback unimplemented");
       return
-        raise Program_Error
-          with "Unimplemented function Track_Get_Destroy_Callback";
+      raise Program_Error
+        with "Unimplemented function Track_Get_Destroy_Callback";
    end Track_Get_Destroy_Callback;
 
    ------------

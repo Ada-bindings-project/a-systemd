@@ -6,16 +6,16 @@ with GNAT.Sockets;
 package Systemd.Daemon is
    use Interfaces.C;
 
-   EMERG   : aliased constant String := "<0>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:46
-   ALERT   : aliased constant String := "<1>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:47
-   CRIT    : aliased constant String := "<2>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:48
-   ERR     : aliased constant String := "<3>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:49
-   WARNING : aliased constant String := "<4>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:50
-   NOTICE  : aliased constant String := "<5>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:51
-   INFO    : aliased constant String := "<6>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:52
-   DEBUG   : aliased constant String := "<7>" & ASCII.NUL;  --  /usr/include/systemd/sd-daemon.h:53
+   EMERG   : aliased constant String := "<0>";
+   ALERT   : aliased constant String := "<1>";
+   CRIT    : aliased constant String := "<2>";
+   ERR     : aliased constant String := "<3>";
+   WARNING : aliased constant String := "<4>";
+   NOTICE  : aliased constant String := "<5>";
+   INFO    : aliased constant String := "<6>";
+   DEBUG   : aliased constant String := "<7>";
 
-   LISTEN_FDS_START : constant := 3;  --  /usr/include/systemd/sd-daemon.h:56
+   LISTEN_FDS_START : constant := 3;
 
    --  SPDX-License-Identifier: LGPL-2.1+
    --  systemd is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ package Systemd.Daemon is
    --  You should have received a copy of the GNU Lesser General Public License
    --  along with systemd; If not, see <http://www.gnu.org/licenses/>.
 
-   type U_Sd_Useless_Struct_To_Allow_Trailing_Semicolon_U is null record;   -- incomplete struct
+   type U_Sd_Useless_Struct_To_Allow_Trailing_Semicolon_U is null record;
 
    --  The following functionality is provided:
    --  - Support for logging with log levels on stderr
@@ -59,7 +59,7 @@ package Systemd.Daemon is
    --  See listen_fds(3) for more information.
    --
 
-   function Listen_Fds (Unset_Environment : Boolean := False) return Int ;
+   function Listen_Fds (Unset_Environment : Boolean := False) return Int;
 
    function Listen_Fds_With_Names (Unset_Environment : Boolean := False; Names : System.Address) return Int;
 
@@ -100,7 +100,7 @@ package Systemd.Daemon is
      (Fd        : GNAT.OS_Lib.File_Descriptor;
       Family    : Int;
       C_Type    : Int;
-      Listening : Int) return Boolean;
+      Listening : Boolean) return Boolean;
 
 
    --  Helper call for identifying a passed file descriptor. Returns 1 if
@@ -224,17 +224,19 @@ package Systemd.Daemon is
    --  See notifyf() for more complete examples.
    --  See notify(3) for more information.
    --
-   function Notify (State             : String;
-                    Unset_Environment : Boolean := False) return Int;
+   function Notify (State               : String;
+                    Unset_Environment   : Boolean := False) return Int;
 
-   procedure Notify (State             : String;
-                     Unset_Environment : Boolean := False);
+   procedure Notify
+     (State             : String;
+      Unset_Environment : Boolean := False);
 
    function Pid_Notify
      (Pid               : GNAT.OS_Lib.Process_Id;
       Unset_Environment : Boolean := False;
       State             : String) return Int;
 
+   type File_Descriptor_Array is array (Positive range <>) of aliased GNAT.OS_Lib.File_Descriptor;
    --  Similar to notifyf(), but send the message on behalf of another
    --  process, if the appropriate permissions are available.
    --
@@ -242,11 +244,15 @@ package Systemd.Daemon is
      (Pid               : GNAT.OS_Lib.Process_Id;
       Unset_Environment : Boolean := False;
       State             : String;
-      Fds               : access Int;
-      N_Fds             : Unsigned) return Int;
+      Fds               : File_Descriptor_Array) return Int;
+   procedure Pid_Notify_With_Fds
+     (Pid               : GNAT.OS_Lib.Process_Id;
+      Unset_Environment : Boolean := False;
+      State             : String;
+      Fds               : File_Descriptor_Array);
 
-   --  Returns > 0 if the system was booted with systemd. Returns < 0 on
-   --  error. Returns 0 if the system was not booted with systemd. Note
+   --  Returns True if the system was booted with systemd.
+   --  Returns False if the system was not booted with systemd. Note
    --  that all of the functions above handle non-systemd boots just
    --  fine. You should NOT protect them with a call to this function. Also
    --  note that this function checks whether the system, not the user
@@ -269,7 +275,7 @@ package Systemd.Daemon is
    --  of the returned time.
    --  See watchdog_enabled(3) for more information.
    --
-   function Watchdog_Enabled (Unset_Environment : Boolean := False;
-                              Watch_Time        : out Duration) return Boolean ;
+   function Watchdog_Enabled (Unset_Environment                         :     Boolean := False;
+                              Watch_Time                                : out Duration) return Boolean;
 
 end Systemd.Daemon;
