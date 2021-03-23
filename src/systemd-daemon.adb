@@ -189,8 +189,7 @@ package body Systemd.Daemon is
    -------------------------
    -- Pid_Notify_With_Fds --
    -------------------------
-   type Int_Access is access all Int with Storage_Size => 0;
-   function Address_As_Int_Access is new Ada.Unchecked_Conversion (System.Address, Int_Access);
+
 
    function Pid_Notify_With_Fds
      (Pid               : GNAT.OS_Lib.Process_Id;

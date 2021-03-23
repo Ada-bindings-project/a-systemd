@@ -151,17 +151,13 @@ package Systemd.event is
       userdata : System.Address) return int  -- /usr/include/systemd/sd-event.h:95
    ;
 
-   function sd_event_prepare (e : access sd_event) return int  -- /usr/include/systemd/sd-event.h:97
-   ;
+   function sd_event_prepare (e : access sd_event) return Int;
 
-   function sd_event_wait (e : access sd_event; usec : unsigned_long) return int  -- /usr/include/systemd/sd-event.h:98
-   ;
+   function sd_event_wait (e : access sd_event; usec : unsigned_long) return Int;
 
-   function sd_event_dispatch (e : access sd_event) return int  -- /usr/include/systemd/sd-event.h:99
-   ;
+   function sd_event_dispatch (e : access sd_event) return Int;
 
-   function sd_event_run (e : access sd_event; usec : unsigned_long) return int  -- /usr/include/systemd/sd-event.h:100
-   ;
+   function sd_event_run (e : access sd_event; usec : unsigned_long) return Int;
 
    function sd_event_loop (e : access sd_event) return int  -- /usr/include/systemd/sd-event.h:101
    ;

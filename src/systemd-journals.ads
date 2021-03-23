@@ -17,7 +17,7 @@ package Systemd.Journals is
                           LOG_NOTICE,   --  normal but significant condition
                           LOG_INFO,     --  informational
                           LOG_DEBUG);   --  debug-level messages'
-   -- maps to priorities in syslog.h
+   --  maps to priorities in syslog.h
 
    function Print (Priority : Priority_Type;
                    Format   : String ) return Int;

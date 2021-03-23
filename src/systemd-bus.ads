@@ -404,20 +404,19 @@ package Systemd.Bus is
 
    function Slot_Get_Current_Userdata (S : access Slot) return System.Address;
 
+
    --  Message object
    function Message_New
      (Bus    : access Sd_Bus;
       M      : System.Address;
-      C_Type : Unsigned_Char) return Int  -- /usr/include/systemd/sd-bus.h:245
-   ;
+      C_Type : Unsigned_Char) return Int;
 
    function Message_New_Signal
      (Bus         : access Sd_Bus;
       M           : System.Address;
       Path        : String;
       C_Interface : String;
-      Member      : String) return Int  -- /usr/include/systemd/sd-bus.h:246
-   ;
+      Member      : String) return Int;
 
    function Message_New_Method_Call
      (Bus         : access Sd_Bus;
@@ -425,11 +424,9 @@ package Systemd.Bus is
       Destination : String;
       Path        : String;
       C_Interface : String;
-      Member      : String) return Int  -- /usr/include/systemd/sd-bus.h:247
-   ;
+      Member      : String) return Int;
 
-   function Message_New_Method_Return (Call : access Message; M : System.Address) return Int  -- /usr/include/systemd/sd-bus.h:248
-   ;
+   function Message_New_Method_Return (Call : access Message; M : System.Address) return Int;
 
    function Message_New_Method_Error
      (Call : access Message;

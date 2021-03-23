@@ -288,9 +288,9 @@ package body Systemd.Journals is
       Message : String)
       return Int
    is
-      C_File   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
-      C_Line   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
-      C_Func   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
+      C_File      : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FILE=" & File);
+      C_Line      : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_LINE=" & Image (Line));
+      C_Func      : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String ("CODE_FUNC=" & Func);
       C_Message   : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Message);
    begin
       return Ret : constant Int := Sd_Journal_Perror_With_Location (File      => C_File,

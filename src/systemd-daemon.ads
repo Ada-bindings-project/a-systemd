@@ -275,7 +275,7 @@ package Systemd.Daemon is
    --  of the returned time.
    --  See watchdog_enabled(3) for more information.
    --
-   function Watchdog_Enabled (Unset_Environment                         :     Boolean := False;
-                              Watch_Time                                : out Duration) return Boolean;
+   function Watchdog_Enabled (Unset_Environment:     Boolean := False;
+                              Watch_Time: out Duration) return Boolean;
 
 end Systemd.Daemon;

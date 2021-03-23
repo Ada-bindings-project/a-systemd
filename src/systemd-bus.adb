@@ -1,5 +1,4 @@
 pragma Ada_2012;
-with Ada.Unchecked_Conversion;
 package body Systemd.Bus is
    use Systemd.Low_Level;
    -------------
